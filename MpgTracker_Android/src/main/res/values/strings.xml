@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MPG_Tracker</string>
+    <string name="app_name">MPG Tracker</string>
     <string name="hello_world">Hello world!</string>
+    <string name="log_fill_up">Log\nA\nFill-Up</string>
+    <string name="view_reports">View\nMPG\nReports</string>
+    <string name="settings">Settings</string>
 
 </resources>

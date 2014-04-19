@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_gradient_top">#FF00CB99</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_grey">#FFEEEEEE</color>
+    <color name="black">#FF000000</color>
+
+    <color name="btn_disabled">#FFAAAAAA</color>
+    <color name="btn_enabled">#FF7777FF</color>
+    <color name="btn_pressed">#FFDEDEEE</color>
+</resources>
