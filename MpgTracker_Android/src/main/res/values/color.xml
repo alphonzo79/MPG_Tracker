@@ -6,6 +6,6 @@
     <color name="black">#FF000000</color>
 
     <color name="btn_disabled">#FFAAAAAA</color>
-    <color name="btn_enabled">#FF7777FF</color>
-    <color name="btn_pressed">#FFDEDEEE</color>
+    <color name="btn_enabled">#FF5555DD</color>
+    <color name="btn_pressed">#FF8888EE</color>
 </resources>

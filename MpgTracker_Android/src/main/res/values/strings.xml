@@ -6,5 +6,8 @@
     <string name="log_fill_up">Log\nA\nFill-Up</string>
     <string name="view_reports">View\nMPG\nReports</string>
     <string name="settings">Settings</string>
+    <string name="about">About MPG Tracker</string>
+    <string name="my_cars">My Vehicles</string>
+    <string name="add_vehicle">+  Add A Vehicle</string>
 
 </resources>

@@ -5,15 +5,14 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/text_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/light_grey"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:text="@string/settings"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        />
+        android:textColor="@color/black"
+        android:textSize="12sp" />
 
 </LinearLayout>
