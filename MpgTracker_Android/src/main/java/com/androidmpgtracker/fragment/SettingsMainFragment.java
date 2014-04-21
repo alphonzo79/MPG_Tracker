@@ -18,6 +18,7 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onAttach(Activity activity) {
+        super.onAttach(activity);
         if(activity instanceof SettingsActivity) {
             this.activity = (SettingsActivity)activity;
         }
