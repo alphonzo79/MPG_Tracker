@@ -1,4 +1,4 @@
-package com.androidmpgtracker;
+package com.androidmpgtracker.activity;
 
 import android.app.Activity;
 import android.content.Intent;

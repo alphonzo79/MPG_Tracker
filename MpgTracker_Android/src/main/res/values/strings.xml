@@ -9,5 +9,8 @@
     <string name="about">About MPG Tracker</string>
     <string name="my_cars">My Vehicles</string>
     <string name="add_vehicle">+  Add A Vehicle</string>
+    <string name="data_sharing">Data Sharing</string>
+    <string name="share_data">Share Mileage Data</string>
+    <string name="share_usage">Share Usage Data</string>
 
 </resources>
