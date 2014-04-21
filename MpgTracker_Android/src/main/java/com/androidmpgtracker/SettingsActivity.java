@@ -1,9 +1,11 @@
-package rowley.mpgtracker;
+package com.androidmpgtracker;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.androidmpgtracker.R;
 
 public class SettingsActivity extends Activity implements View.OnClickListener {
     private LinearLayout vehicleLayout;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="rowley.mpgtracker" >
+    package="com.androidmpgtracker" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="rowley.mpgtracker.DashboardActivity"
+            android:name="com.androidmpgtracker.DashboardActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SettingsActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.androidmpgtracker.SettingsActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

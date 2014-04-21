@@ -1,10 +1,10 @@
-package rowley.mpgtracker.controls;
+package com.androidmpgtracker.controls;
 
 import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import rowley.mpgtracker.R;
+import com.androidmpgtracker.R;
 
 public class VehicleView extends LinearLayout {
 

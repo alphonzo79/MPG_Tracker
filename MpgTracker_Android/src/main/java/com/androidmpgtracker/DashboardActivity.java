@@ -1,9 +1,11 @@
-package rowley.mpgtracker;
+package com.androidmpgtracker;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.androidmpgtracker.R;
 
 public class DashboardActivity extends Activity implements View.OnClickListener {
 
