@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_settings_table">CREATE TABLE IF NOT EXISTS settings (_id INTEGER AUTOINCREMENT, setting_name TEXT PRIMARY KEY, setting_value TEXT);</string>
+    <string name="create_cars_table">CREATE TABLE IF NOT EXISTS my_cars (_id INTEGER PRIMARY KEY AUTOINCREMENT, year INTEGER, make TEXT, model TEXT, trim TEXT, is_custom TEXT);</string>
+    <string name="create_fill_ups_table">CREATE TABLE IF NOT EXISTS fill_ups (_id INTEGER PRIMARY KEY AUTOINCREMENT, car_id INTEGER, date INTEGER, miles FLOAT, gallons FLOAT, price_per_gallon FLOAT, full_cost FLOAT);</string>
+</resources>
