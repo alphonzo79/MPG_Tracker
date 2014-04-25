@@ -13,29 +13,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MpgDatabaseHelperTests extends ActivityInstrumentationTestCase2<DashboardActivity> {
+public class MpgDatabaseHelperTests extends SimpleDashboardInstrumentedBase {
     private MpgDatabaseHelper mDbHelper;
-    private DashboardActivity mActivity;
-
-    public MpgDatabaseHelperTests(Class<DashboardActivity> activityClass) {
-        super(activityClass);
-    }
-
-    public MpgDatabaseHelperTests() {
-        this(DashboardActivity.class);
-    }
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        getInstrumentation();
-        mActivity = getActivity();
         mDbHelper = new MpgDatabaseHelper(mActivity);
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     public void testOnCreate() {
