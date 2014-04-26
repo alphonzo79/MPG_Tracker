@@ -3,6 +3,7 @@
     <color name="background_gradient_top">#FF00CB99</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_grey">#FFEEEEEE</color>
+    <color name="dark_grey">#FFAAAAAA</color>
     <color name="black">#FF000000</color>
 
     <color name="btn_disabled">#FFAAAAAA</color>

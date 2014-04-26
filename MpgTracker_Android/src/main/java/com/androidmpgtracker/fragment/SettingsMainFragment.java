@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.androidmpgtracker.R;
 import com.androidmpgtracker.activity.SettingsActivity;
+import com.androidmpgtracker.view.MpgSwitchView;
 
 public class SettingsMainFragment extends Fragment implements View.OnClickListener {
     private LinearLayout vehicleLayout;
@@ -34,6 +35,18 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
 
         vehicleLayout = (LinearLayout)root.findViewById(R.id.vehicle_container);
         sharingLayout = (LinearLayout)root.findViewById(R.id.sharing_container);
+
+        final MpgSwitchView switchView = (MpgSwitchView)root.findViewById(R.id.data_sharing_switch);
+        switchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchView.isSelected()) {
+                    switchView.setSelected(false);
+                } else {
+                    switchView.setSelected(true);
+                }
+            }
+        });
 
         return root;
     }

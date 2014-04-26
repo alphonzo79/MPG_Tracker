@@ -37,9 +37,8 @@ public class SettingsDao extends MpgDatabaseHelper {
         Boolean result = null;
 
         SQLiteDatabase db = getReadableDatabase();
-        String sqlStatement = String.format("SELECT %s FROM %s WHERE %s='%s'", SETTING_VALUE, TABLE_NAME, SETTING_NAME, ALLOW_USAGE_SHARING);
 
-        Cursor cursor = db.rawQuery(sqlStatement, null);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{SETTING_VALUE}, SETTING_NAME + "=?", new String[]{ALLOW_USAGE_SHARING}, null, null, null);
         if(cursor != null) {
             try {
                 cursor.moveToFirst();
@@ -84,9 +83,8 @@ public class SettingsDao extends MpgDatabaseHelper {
         Boolean result = null;
 
         SQLiteDatabase db = getReadableDatabase();
-        String sqlStatement = String.format("SELECT %s FROM %s WHERE %s='%s'", SETTING_VALUE, TABLE_NAME, SETTING_NAME, ALLOW_DATA_SHARING);
 
-        Cursor cursor = db.rawQuery(sqlStatement, null);
+        Cursor cursor = db.query(TABLE_NAME, new String[]{SETTING_VALUE}, SETTING_NAME + "=?", new String[]{ALLOW_DATA_SHARING}, null, null, null);
         if(cursor != null) {
             try {
                 cursor.moveToFirst();

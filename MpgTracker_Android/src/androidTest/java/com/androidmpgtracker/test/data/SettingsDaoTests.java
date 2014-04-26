@@ -28,7 +28,7 @@ public class SettingsDaoTests extends SimpleDashboardInstrumentedBase {
     public void testGetSetAllowUsageSharing() {
         //Empty returns true
         SQLiteDatabase dao = mSettingsDao.getWritableDatabase();
-        dao.execSQL(String.format("DELETE from %s WHERE %s = '%s'", mSettingsDao.TABLE_NAME, mSettingsDao.SETTING_NAME, mSettingsDao.ALLOW_USAGE_SHARING));
+        dao.execSQL(String.format("DELETE from %s WHERE %s = '%s'", SettingsDao.TABLE_NAME, SettingsDao.SETTING_NAME, SettingsDao.ALLOW_USAGE_SHARING));
         boolean allowSharing = mSettingsDao.getAllowUsageSharing();
         assertTrue("Null did not return true as expected", allowSharing);
 
@@ -47,7 +47,7 @@ public class SettingsDaoTests extends SimpleDashboardInstrumentedBase {
     public void testGetSetAllowDataSharing() {
         //Empty returns true
         SQLiteDatabase dao = mSettingsDao.getWritableDatabase();
-        dao.execSQL(String.format("DELETE from %s WHERE %s = '%s'", mSettingsDao.TABLE_NAME, mSettingsDao.SETTING_NAME, mSettingsDao.ALLOW_DATA_SHARING));
+        dao.execSQL(String.format("DELETE from %s WHERE %s = '%s'", SettingsDao.TABLE_NAME, SettingsDao.SETTING_NAME, SettingsDao.ALLOW_DATA_SHARING));
         boolean allowSharing = mSettingsDao.getAllowDataSharing();
         assertTrue("Null did not return true as expected", allowSharing);
 

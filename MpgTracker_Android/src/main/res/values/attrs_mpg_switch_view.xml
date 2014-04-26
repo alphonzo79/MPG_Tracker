@@ -1,0 +1,9 @@
+<resources>
+    <declare-styleable name="MpgSwitchView">
+        <attr name="positiveText" format="string" />
+        <attr name="negativeText" format="string" />
+        <attr name="positiveColor" format="color" />
+        <attr name="negativeColor" format="color" />
+        <attr name="initialSelected" format="boolean" />
+    </declare-styleable>
+</resources>
