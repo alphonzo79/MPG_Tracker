@@ -23,11 +23,13 @@ public class MpgSwitchView extends RelativeLayout {
     private String negativeText;
     private int positiveColor;
     private int negativeColor;
+    private int backgroundColor;
 
     private boolean selected;
 
     private TextView switchNo;
     private TextView switchYes;
+    private View background;
 
     private Animation selectStart;
     private Animation selectFinish;
@@ -67,12 +69,16 @@ public class MpgSwitchView extends RelativeLayout {
 
         positiveColor = a.getInteger(R.styleable.MpgSwitchView_positiveColor, getResources().getColor(R.color.btn_enabled));
         negativeColor = a.getInteger(R.styleable.MpgSwitchView_negativeColor, getResources().getColor(R.color.btn_disabled));
+        backgroundColor = a.getInteger(R.styleable.MpgSwitchView_backgroundColor, getResources().getColor(R.color.black));
 
         selected = a.getBoolean(R.styleable.MpgSwitchView_initialSelected, true);
 
         a.recycle();
 
         inflate(getContext(), R.layout.control_switch, this);
+
+        background = findViewById(R.id.background);
+        background.setBackgroundColor(backgroundColor);
 
         switchNo = (TextView)findViewById(R.id.switch_no);
         switchYes = (TextView)findViewById(R.id.switch_yes);
@@ -227,5 +233,13 @@ public class MpgSwitchView extends RelativeLayout {
             }
         }
         this.selected = selected;
+    }
+
+    @Override
+    public void setBackgroundColor(int color) {
+        backgroundColor = color;
+        if(background != null) {
+            background.setBackgroundColor(color);
+        }
     }
 }

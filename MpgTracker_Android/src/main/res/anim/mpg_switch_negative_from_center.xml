@@ -5,9 +5,20 @@
     <translate
         android:fromYDelta="0%p"
         android:toYDelta="0%p"
-        android:fromXDelta="25%p"
+        android:fromXDelta="35%p"
         android:toXDelta="0%p"
         android:fillAfter="true"
-        android:duration="75" />
+        android:duration="125" />
+
+    <scale
+        android:interpolator="@android:anim/linear_interpolator"
+        android:fromXScale="0.0"
+        android:toXScale="1.0"
+        android:fromYScale="1.2"
+        android:toYScale="1.0"
+        android:pivotY="50%"
+        android:pivotX="100%"
+        android:startOffset="25"
+        android:duration="100" />
 
 </set>
