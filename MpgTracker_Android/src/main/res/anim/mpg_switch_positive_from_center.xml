@@ -8,7 +8,7 @@
         android:fromXDelta="-35%p"
         android:toXDelta="0%p"
         android:fillAfter="true"
-        android:duration="125" />
+        android:duration="90" />
 
     <scale
         android:interpolator="@android:anim/linear_interpolator"
@@ -18,6 +18,6 @@
         android:toYScale="1.0"
         android:pivotY="50%"
         android:pivotX="0%"
-        android:duration="100" />
+        android:duration="75" />
 
 </set>
