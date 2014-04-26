@@ -11,7 +11,9 @@
     <string name="add_vehicle">+  Add A Vehicle</string>
     <string name="data_sharing">Data Sharing</string>
     <string name="share_data">Share Mileage Data</string>
+    <string name="share_data_text">Share non-identifying data about your fill ups and help build a community database of information about each model of vehicle.</string>
     <string name="share_usage">Share Usage Data</string>
+    <string name="share_usage_text">Share non-identifying data that can help us understand how the app is used and to quickly receive crash reports.</string>
 
     <string name="none">none</string>
 

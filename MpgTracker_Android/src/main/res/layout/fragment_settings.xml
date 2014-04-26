@@ -86,44 +86,82 @@
                 android:layout_marginTop="1dp"
                 android:orientation="vertical"
                 android:animateLayoutChanges="true"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_grey"
+                    android:padding="10dp">
 
                     <com.androidmpgtracker.view.MpgSwitchView
                         android:id="@+id/data_sharing_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/light_grey"/>
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true" />
+
+                    <TextView
+                        android:id="@+id/data_sharing_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/data_sharing_switch"
+                        android:text="@string/share_data"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/data_sharing_switch"
+                        android:layout_below="@id/data_sharing_head"
+                        android:text="@string/share_data_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
 
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/share_data"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/light_grey"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:gravity="center"
-                    android:text="@string/share_data"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/share_uage"
-                    android:layout_width="fill_parent"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/light_grey"
                     android:layout_marginTop="1dp"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:gravity="center"
-                    android:text="@string/share_usage"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:padding="10dp">
+
+                    <com.androidmpgtracker.view.MpgSwitchView
+                        android:id="@+id/usage_sharing_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true" />
+
+                    <TextView
+                        android:id="@+id/usage_sharing_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/usage_sharing_switch"
+                        android:text="@string/share_usage"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/usage_sharing_switch"
+                        android:layout_below="@id/usage_sharing_head"
+                        android:text="@string/share_usage_text"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 

@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/switch_no"
-        android:layout_width="43dp"
+        android:layout_width="44dp"
         android:layout_height="match_parent"
         android:background="@color/dark_grey"
         android:text="@string/no"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/switch_yes"
-        android:layout_width="43dp"
+        android:layout_width="44dp"
         android:layout_height="match_parent"
         android:background="@color/btn_enabled"
         android:text="@string/yes"

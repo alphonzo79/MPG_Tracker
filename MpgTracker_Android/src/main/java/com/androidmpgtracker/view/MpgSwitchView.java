@@ -235,6 +235,19 @@ public class MpgSwitchView extends RelativeLayout {
         this.selected = selected;
     }
 
+    public void setSelectedNoAnimate(boolean selected) {
+        if(switchNo != null && switchYes != null && this.selected != selected) {
+            if(selected) {
+                switchNo.setVisibility(View.INVISIBLE);
+                switchYes.setVisibility(View.VISIBLE);
+            } else {
+                switchNo.setVisibility(View.VISIBLE);
+                switchYes.setVisibility(View.INVISIBLE);
+            }
+        }
+        this.selected = selected;
+    }
+
     @Override
     public void setBackgroundColor(int color) {
         backgroundColor = color;
