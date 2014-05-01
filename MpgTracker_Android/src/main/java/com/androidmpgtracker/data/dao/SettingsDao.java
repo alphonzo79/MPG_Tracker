@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 
-import com.androidmpgtracker.data.entities.MpgDatabaseHelper;
+import com.androidmpgtracker.data.MpgDatabaseHelper;
 
 public class SettingsDao extends MpgDatabaseHelper {
     //database constants

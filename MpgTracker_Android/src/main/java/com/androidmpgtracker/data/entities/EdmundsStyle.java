@@ -39,4 +39,13 @@ public class EdmundsStyle extends MpgApiEntity {
     public void setTrim(String trim) {
         this.trim = trim;
     }
+
+    public static EdmundsStyle getBareEntity() {
+        EdmundsStyle retVal = new EdmundsStyle();
+
+        retVal.setId(-1);
+        retVal.setName("");
+
+        return retVal;
+    }
 }

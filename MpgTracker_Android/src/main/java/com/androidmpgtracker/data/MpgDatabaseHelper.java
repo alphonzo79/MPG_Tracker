@@ -1,4 +1,4 @@
-package com.androidmpgtracker.data.entities;
+package com.androidmpgtracker.data;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;

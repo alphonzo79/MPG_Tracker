@@ -4,7 +4,6 @@ import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.androidmpgtracker.activity.DashboardActivity;
-import com.androidmpgtracker.data.entities.MpgDatabaseHelper;
 
 public abstract class SimpleDashboardInstrumentedBase extends ActivityInstrumentationTestCase2<DashboardActivity> {
     protected DashboardActivity mActivity;

@@ -2,12 +2,8 @@ package com.androidmpgtracker.test.data;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
-import com.androidmpgtracker.activity.DashboardActivity;
-import com.androidmpgtracker.data.entities.MpgDatabaseHelper;
+import com.androidmpgtracker.data.MpgDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;

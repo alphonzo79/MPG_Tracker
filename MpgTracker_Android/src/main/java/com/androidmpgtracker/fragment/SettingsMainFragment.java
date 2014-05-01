@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import com.androidmpgtracker.R;
 import com.androidmpgtracker.activity.SettingsActivity;
 import com.androidmpgtracker.data.dao.SettingsDao;
+import com.androidmpgtracker.data.entities.Vehicle;
 import com.androidmpgtracker.view.MpgSwitchView;
 
 public class SettingsMainFragment extends Fragment implements View.OnClickListener {
@@ -72,6 +73,8 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
         if(vehiclesExpanded) {
             vehicleLayout.setVisibility(View.VISIBLE);
         }
+        root.findViewById(R.id.add_vehicle).setOnClickListener(this);
+
         //todo vehicle setup stuff here
 
         sharingLayout = (LinearLayout) root.findViewById(R.id.sharing_container);
@@ -98,6 +101,9 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
                     vehiclesExpanded = false;
                     vehicleLayout.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.add_vehicle:
+                activity.replaceContentFragment(new FragmentAddEditVehicle());
                 break;
             case R.id.sharing_subhead:
                 if(sharingLayout.getVisibility() != View.VISIBLE) {

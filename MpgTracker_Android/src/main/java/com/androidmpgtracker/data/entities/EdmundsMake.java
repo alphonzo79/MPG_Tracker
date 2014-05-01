@@ -41,4 +41,13 @@ public class EdmundsMake extends MpgApiEntity {
     public void setModels(List<EdmundsModel> models) {
         this.models = models;
     }
+
+    public static EdmundsMake getBareEntity() {
+        EdmundsMake retVal = new EdmundsMake();
+
+        retVal.setId(-1);
+        retVal.setName("");
+
+        return retVal;
+    }
 }

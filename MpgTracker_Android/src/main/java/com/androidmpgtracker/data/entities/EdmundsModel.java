@@ -41,4 +41,13 @@ public class EdmundsModel extends MpgApiEntity {
     public void setYears(List<EdmundsModelYear> years) {
         this.years = years;
     }
+
+    public static EdmundsModel getBareEntity() {
+        EdmundsModel retVal = new EdmundsModel();
+
+        retVal.setName("");
+        retVal.setId("");
+
+        return retVal;
+    }
 }
