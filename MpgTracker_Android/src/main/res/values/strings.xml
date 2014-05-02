@@ -24,6 +24,7 @@
     <string name="save">Save</string>
     <string name="car_not_listed">My Car Isn\'t Listed</string>
     <string name="year">Year</string>
+    <string name="year_error">Sorry, there are no results for the selected year.</string>
     <string name="make">Make</string>
     <string name="model">Model</string>
     <string name="trim">Trim</string>

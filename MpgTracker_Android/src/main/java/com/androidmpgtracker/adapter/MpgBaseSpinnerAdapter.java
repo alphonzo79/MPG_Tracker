@@ -66,4 +66,8 @@ public abstract class MpgBaseSpinnerAdapter<T> extends BaseAdapter {
     }
 
     protected abstract String getDisplayString(int position);
+
+    public void clearDataList() {
+        dataList.clear();
+    }
 }
