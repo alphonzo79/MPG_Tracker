@@ -1,6 +1,7 @@
 package com.androidmpgtracker.fragment;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.androidmpgtracker.data.entities.EdmundsModel;
 import com.androidmpgtracker.data.entities.EdmundsStyle;
 import com.androidmpgtracker.data.entities.EdmundsYear;
 import com.androidmpgtracker.data.entities.Vehicle;
+import com.androidmpgtracker.loader.ModelsForYearMakeLoader;
 import com.androidmpgtracker.loader.YearMakesLoader;
 
 import java.util.ArrayList;
@@ -53,6 +55,9 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     private LoaderCallbacks<EdmundsYear> yearMakeLoaderCallbacks;
     private final int YEAR_MAKE_LOADER_ID = 45;
 
+    private LoaderCallbacks<EdmundsMake> modelLoaderCallbacks;
+    private final int MODEL_LOADER_ID = 55;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -65,16 +70,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
         setupYearSpinner();
         setupMakeSpinner();
-
-        modelSpinner = (Spinner)root.findViewById(R.id.model_spinner);
-        setupModelAdapter(null);
-        modelSpinner.setAdapter(modelAdapter);
-        modelSpinner.setEnabled(false);
-
-        trimSpinner = (Spinner)root.findViewById(R.id.trim_spinner);
-        setupTrimAdapter(null);
-        trimSpinner.setAdapter(trimAdapter);
-        trimSpinner.setEnabled(false);
+        setupModelSpinner();
+        setupTrimSpinner();
 
         saveButton = (Button)root.findViewById(R.id.save_car_button);
         saveButton.setEnabled(false);
@@ -138,6 +135,20 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         });
     }
 
+    private void setupModelSpinner() {
+        modelSpinner = (Spinner)root.findViewById(R.id.model_spinner);
+        setupModelAdapter(null);
+        modelSpinner.setAdapter(modelAdapter);
+        modelSpinner.setEnabled(false);
+    }
+
+    private void setupTrimSpinner() {
+        trimSpinner = (Spinner)root.findViewById(R.id.trim_spinner);
+        setupTrimAdapter(null);
+        trimSpinner.setAdapter(trimAdapter);
+        trimSpinner.setEnabled(false);
+    }
+
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
         //todo more
@@ -195,43 +206,85 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     }
 
     private void getMakesForYear(int year) {
-        if(yearMakeLoaderCallbacks == null) {
-            yearMakeLoaderCallbacks = new LoaderCallbacks<EdmundsYear>() {
-                @Override
-                public Loader<EdmundsYear> onCreateLoader(int i, Bundle bundle) {
-                    YearMakesLoader yearLoader = new YearMakesLoader(activity);
-                    yearLoader.setYear(bundle.getInt("year"));
-                    return yearLoader;
-                }
-
-                @Override
-                public void onLoadFinished(Loader<EdmundsYear> edmundsMakeLoader, EdmundsYear yearMakeList) {
-                    if(yearMakeList != null && yearMakeList.getMakes() != null && yearMakeList.getMakes().size() > 0) {
-                        setupMakeAdapter(yearMakeList.getMakes());
-                        makeSpinner.setEnabled(true);
-                    } else {
-                        Toast.makeText(activity, R.string.year_error, Toast.LENGTH_SHORT).show();
+        if (activity != null) {
+            if(yearMakeLoaderCallbacks == null) {
+                yearMakeLoaderCallbacks = new LoaderCallbacks<EdmundsYear>() {
+                    @Override
+                    public Loader<EdmundsYear> onCreateLoader(int i, Bundle bundle) {
+                        YearMakesLoader yearLoader = new YearMakesLoader(activity);
+                        yearLoader.setYear(bundle.getInt("year"));
+                        return yearLoader;
                     }
-                }
 
-                @Override
-                public void onLoaderReset(Loader<EdmundsYear> edmundsMakeLoader) {
+                    @Override
+                    public void onLoadFinished(Loader<EdmundsYear> edmundsMakeLoader, EdmundsYear yearMakeList) {
+                        if (edmundsMakeLoader.getId() == YEAR_MAKE_LOADER_ID) {
+                            if(yearMakeList != null && yearMakeList.getMakes() != null && yearMakeList.getMakes().size() > 0) {
+                                setupMakeAdapter(yearMakeList.getMakes());
+                                makeSpinner.setEnabled(true);
+                            } else {
+                                Toast.makeText(activity, R.string.year_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
 
-                }
-            };
-        }
+                    @Override
+                    public void onLoaderReset(Loader<EdmundsYear> edmundsMakeLoader) {
 
-        Bundle args = new Bundle();
-        args.putInt("year", year);
-        if(getLoaderManager().getLoader(YEAR_MAKE_LOADER_ID) == null) {
-            getLoaderManager().initLoader(YEAR_MAKE_LOADER_ID, args, yearMakeLoaderCallbacks);
-        } else {
-            getLoaderManager().restartLoader(YEAR_MAKE_LOADER_ID, args, yearMakeLoaderCallbacks);
+                    }
+                };
+            }
+
+            Bundle args = new Bundle();
+            args.putInt("year", year);
+            if(getLoaderManager().getLoader(YEAR_MAKE_LOADER_ID) == null) {
+                getLoaderManager().initLoader(YEAR_MAKE_LOADER_ID, args, yearMakeLoaderCallbacks);
+            } else {
+                getLoaderManager().restartLoader(YEAR_MAKE_LOADER_ID, args, yearMakeLoaderCallbacks);
+            }
         }
     }
 
     private void getModelsForYearAndMake(int year, String modelNiceName) {
-        
+        if(!TextUtils.isEmpty(modelNiceName) && activity != null) {
+            if(modelLoaderCallbacks == null) {
+                modelLoaderCallbacks = new LoaderCallbacks<EdmundsMake>() {
+                    @Override
+                    public Loader<EdmundsMake> onCreateLoader(int id, Bundle args) {
+                        ModelsForYearMakeLoader modelLoader = new ModelsForYearMakeLoader(activity);
+                        modelLoader.setMakeNiceName(args.getString("model"));
+                        modelLoader.setYear(args.getInt("year"));
+                        return modelLoader;
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<EdmundsMake> loader, EdmundsMake data) {
+                        if (loader.getId() == MODEL_LOADER_ID) {
+                            if(data!= null && data.getModels() != null && data.getModels().size() > 0) {
+                                setupModelAdapter(data.getModels());
+                                modelSpinner.setEnabled(true);
+                            } else {
+                                Toast.makeText(activity, R.string.make_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<EdmundsMake> loader) {
+
+                    }
+                };
+            }
+
+            Bundle args = new Bundle();
+            args.putInt("year", year);
+            args.putString("model", modelNiceName);
+            if(getLoaderManager().getLoader(MODEL_LOADER_ID) == null) {
+                getLoaderManager().initLoader(MODEL_LOADER_ID, args, modelLoaderCallbacks);
+            } else {
+                getLoaderManager().restartLoader(MODEL_LOADER_ID, args, modelLoaderCallbacks);
+            }
+        }
     }
 
     @Override
