@@ -71,5 +71,13 @@ public abstract class MpgBaseRequest implements Serializable {
         return apiProperties.getProperty("api_url") + requestMethod;
     }
 
+    public String getApiKey() {
+        return apiProperties.getProperty("key");
+    }
+
+    public String getApiSecret() {
+        return apiProperties.getProperty("secret");
+    }
+
     protected abstract void setUpApiProps(Context context);
 }

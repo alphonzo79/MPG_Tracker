@@ -10,8 +10,10 @@ import android.widget.LinearLayout;
 
 import android.support.v4.app.FragmentManager;
 
+import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
 import com.androidmpgtracker.fragment.SettingsMainFragment;
+import com.flurry.android.FlurryAgent;
 
 public class SettingsActivity extends FragmentActivity {
 
@@ -25,6 +27,22 @@ public class SettingsActivity extends FragmentActivity {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
             trans.add(R.id.content_container, new SettingsMainFragment(), null);
             trans.commit();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(MpgApplication.isUsageSharingAllowed()) {
+            FlurryAgent.onStartSession(this, getString(R.string.flurry_key));
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(MpgApplication.isUsageSharingAllowed()) {
+            FlurryAgent.onEndSession(this);
         }
     }
 

@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
+import com.androidmpgtracker.Utils.FlurryEvents;
 import com.androidmpgtracker.activity.SettingsActivity;
 import com.androidmpgtracker.data.dao.SettingsDao;
 import com.androidmpgtracker.data.entities.Vehicle;
 import com.androidmpgtracker.view.MpgSwitchView;
+import com.flurry.android.FlurryAgent;
 
 public class SettingsMainFragment extends Fragment implements View.OnClickListener {
     private View root;
@@ -103,6 +106,9 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
                 }
                 break;
             case R.id.add_vehicle:
+                if(MpgApplication.isUsageSharingAllowed()) {
+                    FlurryAgent.logEvent(FlurryEvents.ADD_VEHICLE_SELECTED);
+                }
                 activity.replaceContentFragment(new FragmentAddEditVehicle());
                 break;
             case R.id.sharing_subhead:
@@ -117,6 +123,13 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
             case R.id.data_sharing_switch:
                 shareData = !shareData;
                 dataSwitch.setSelected(shareData);
+                if(MpgApplication.isUsageSharingAllowed()) {
+                    if(shareData) {
+                        FlurryAgent.logEvent(FlurryEvents.DATA_SHARING_ENABLED);
+                    } else {
+                        FlurryAgent.logEvent(FlurryEvents.DATA_SHARING_DISABLED);
+                    }
+                }
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {
@@ -130,6 +143,12 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
             case R.id.usage_sharing_switch:
                 shareUsage = !shareUsage;
                 usageSwitch.setSelected(shareUsage);
+                if(MpgApplication.isUsageSharingAllowed() && !shareData) {
+                    FlurryAgent.logEvent(FlurryEvents.USAGE_SHARING_DISABLED);
+                } else if(shareData) {
+                    FlurryAgent.logEvent(FlurryEvents.USAGE_SHARING_ENABLED);
+                }
+                MpgApplication.setUsageSharingAllowed(shareUsage);
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {

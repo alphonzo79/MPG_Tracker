@@ -20,6 +20,8 @@ public class YearMakesLoader extends MpgBaseLoader<EdmundsYear> {
         if(!TextUtils.isEmpty(year)) {
             MpgEdmundsRequest request = new MpgEdmundsRequest(context, Method.GET_MAKES_FOR_YEAR);
             request.addParam("year", year);
+            request.addParam("fmt", "json");
+            request.addParam("view", "basic");
 
             request = sendEdmundsRequestAndWait(request);
             if(request.getResponse() != null) {
