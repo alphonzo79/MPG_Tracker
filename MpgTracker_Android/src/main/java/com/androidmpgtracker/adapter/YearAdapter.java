@@ -4,15 +4,15 @@ import android.content.Context;
 
 import java.util.List;
 
-public class YearAdapter extends MpgBaseSpinnerAdapter<String> {
-    public YearAdapter(Context context, List<String> dataList) {
+public class YearAdapter extends MpgBaseSpinnerAdapter<Integer> {
+    public YearAdapter(Context context, List<Integer> dataList) {
         super(context, dataList);
     }
 
     @Override
     protected String getDisplayString(int position) {
         if(dataList != null && dataList.size() > position && dataList.get(position) != null) {
-            return dataList.get(position);
+            return String.valueOf(dataList.get(position));
         } else {
             return "";
         }

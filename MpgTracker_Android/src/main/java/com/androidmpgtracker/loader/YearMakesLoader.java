@@ -9,7 +9,7 @@ import com.androidmpgtracker.data.entities.EdmundsYear;
 import com.google.gson.Gson;
 
 public class YearMakesLoader extends MpgBaseLoader<EdmundsYear> {
-    private String year;
+    private Integer year;
 
     public YearMakesLoader(Context context) {
         super(context);
@@ -17,9 +17,9 @@ public class YearMakesLoader extends MpgBaseLoader<EdmundsYear> {
 
     @Override
     public EdmundsYear loadInBackground() {
-        if(!TextUtils.isEmpty(year)) {
+        if(year != null) {
             MpgEdmundsRequest request = new MpgEdmundsRequest(context, Method.GET_MAKES_FOR_YEAR);
-            request.addParam("year", year);
+            request.addParam("year", String.valueOf(year));
             request.addParam("fmt", "json");
             request.addParam("view", "basic");
 
@@ -32,7 +32,7 @@ public class YearMakesLoader extends MpgBaseLoader<EdmundsYear> {
         return result;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 }

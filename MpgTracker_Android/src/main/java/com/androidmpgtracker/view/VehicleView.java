@@ -1,4 +1,4 @@
-package com.androidmpgtracker.controls;
+package com.androidmpgtracker.view;
 
 import android.content.Context;
 import android.widget.LinearLayout;

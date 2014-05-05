@@ -120,7 +120,7 @@ public abstract class MpgBaseLoader<D> extends AsyncTaskLoader<D> {
             }
 
         }
-        
+
         return request;
     }
 }

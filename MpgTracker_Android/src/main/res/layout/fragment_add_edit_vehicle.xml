@@ -60,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:minWidth="125dp"
                 android:background="@drawable/spinner_background"
-                android:padding="5dp"
                 android:gravity="center"/>
 
             <TextView
@@ -78,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:minWidth="125dp"
                 android:background="@drawable/spinner_background"
-                android:padding="5dp"
                 android:gravity="center"/>
 
             <TextView
@@ -96,7 +94,6 @@
                 android:layout_height="wrap_content"
                 android:minWidth="125dp"
                 android:background="@drawable/spinner_background"
-                android:padding="5dp"
                 android:gravity="center"/>
 
             <TextView
@@ -114,7 +111,6 @@
                 android:layout_height="wrap_content"
                 android:minWidth="125dp"
                 android:background="@drawable/spinner_background"
-                android:padding="5dp"
                 android:gravity="center"/>
 
             <Button
