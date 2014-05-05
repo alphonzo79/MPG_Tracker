@@ -2,6 +2,8 @@ package com.androidmpgtracker.adapter;
 
 import android.content.Context;
 
+import com.androidmpgtracker.R;
+
 import java.util.List;
 
 public class YearAdapter extends MpgBaseSpinnerAdapter<Integer> {
@@ -14,7 +16,7 @@ public class YearAdapter extends MpgBaseSpinnerAdapter<Integer> {
         if(dataList != null && dataList.size() > position && dataList.get(position) != null) {
             return String.valueOf(dataList.get(position));
         } else {
-            return "";
+            return context.getString(R.string.select);
         }
     }
 

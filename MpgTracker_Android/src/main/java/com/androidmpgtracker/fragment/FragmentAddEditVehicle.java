@@ -52,6 +52,11 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
     private Button saveButton;
 
+    private int selectedYear;
+    private EdmundsMake selectedMake;
+    private EdmundsModel selectedModel;
+    private EdmundsStyle selectedTrim;
+
     private LoaderCallbacks<EdmundsYear> yearMakeLoaderCallbacks;
     private final int YEAR_MAKE_LOADER_ID = 45;
 
@@ -98,7 +103,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
                 saveButton.setEnabled(false);
 
-                getMakesForYear(yearAdapter.getItem(i));
+                if(i > 0) {
+                    selectedYear = yearAdapter.getItem(i);
+                    getMakesForYear(selectedYear);
+                }
             }
 
             @Override
@@ -123,9 +131,11 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 setupTrimAdapter(null);
                 trimSpinner.setEnabled(false);
 
-                saveButton.setEnabled(true);
-
-                getModelsForYearAndMake(yearAdapter.getItem(yearSpinner.getSelectedItemPosition()), makeAdapter.getItem(i).getNiceName());
+                if(i > 0) {
+                    saveButton.setEnabled(true);
+                    selectedMake = makeAdapter.getItem(i);
+                    getModelsForYearAndMake(selectedYear, selectedMake.getNiceName());
+                }
             }
 
             @Override
@@ -140,6 +150,24 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         setupModelAdapter(null);
         modelSpinner.setAdapter(modelAdapter);
         modelSpinner.setEnabled(false);
+        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //reset and disable the lower spinners
+                setupTrimAdapter(null);
+                trimSpinner.setEnabled(false);
+
+                if(i > 0) {
+                    selectedModel = modelAdapter.getItem(i);
+                    getTrimsForModel(selectedModel);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void setupTrimSpinner() {
@@ -147,6 +175,19 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         setupTrimAdapter(null);
         trimSpinner.setAdapter(trimAdapter);
         trimSpinner.setEnabled(false);
+        trimSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i > 0) {
+                    selectedTrim = trimAdapter.getItem(i);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     public void setVehicle(Vehicle vehicle) {
@@ -156,6 +197,7 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
     private void setupYearAdapter() {
         List<Integer> yearList = new ArrayList<Integer>();
+        yearList.add(null);
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         for(int i = currentYear; i >= 1990; i--) {
             yearList.add(i);
@@ -164,45 +206,54 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     }
 
     private void setupMakeAdapter(List<EdmundsMake> dataList) {
+        List<EdmundsMake> makeList = new ArrayList<EdmundsMake>();
         if(dataList == null) {
-            dataList = new ArrayList<EdmundsMake>();
-            dataList.add(EdmundsMake.getBareEntity());
+            makeList.add(EdmundsMake.getBareEntity());
+        } else {
+            makeList.add(null);
+            makeList.addAll(dataList);
         }
 
         if(makeAdapter == null) {
             makeAdapter = new MakeAdapter(activity, dataList);
-        } else {
-            makeAdapter.setDataList(dataList);
-            makeAdapter.notifyDataSetChanged();
         }
+
+        makeAdapter.setDataList(makeList);
+        makeAdapter.notifyDataSetChanged();
     }
 
     private void setupModelAdapter(List<EdmundsModel> dataList) {
+        List<EdmundsModel> modelList = new ArrayList<EdmundsModel>();
         if(dataList == null) {
-            dataList = new ArrayList<EdmundsModel>();
-            dataList.add(EdmundsModel.getBareEntity());
+            modelList.add(EdmundsModel.getBareEntity());
+        } else {
+            modelList.add(null);
+            modelList.addAll(dataList);
         }
 
         if(modelAdapter == null) {
             modelAdapter = new ModelAdapter(activity, dataList);
-        } else {
-            modelAdapter.setDataList(dataList);
-            modelAdapter.notifyDataSetChanged();
         }
+
+        modelAdapter.setDataList(modelList);
+        modelAdapter.notifyDataSetChanged();
     }
 
     private void setupTrimAdapter(List<EdmundsStyle> dataList) {
+        List<EdmundsStyle> trimList = new ArrayList<EdmundsStyle>();
         if(dataList == null) {
-            dataList = new ArrayList<EdmundsStyle>();
-            dataList.add(EdmundsStyle.getBareEntity());
+            trimList.add(EdmundsStyle.getBareEntity());
+        } else {
+            trimList.add(null);
+            trimList.addAll(dataList);
         }
 
         if(trimAdapter == null) {
             trimAdapter = new TrimAdapter(activity, dataList);
-        } else {
-            trimAdapter.setDataList(dataList);
-            trimAdapter.notifyDataSetChanged();
         }
+
+        trimAdapter.setDataList(trimList);
+        trimAdapter.notifyDataSetChanged();
     }
 
     private void getMakesForYear(int year) {
@@ -283,6 +334,15 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 getLoaderManager().initLoader(MODEL_LOADER_ID, args, modelLoaderCallbacks);
             } else {
                 getLoaderManager().restartLoader(MODEL_LOADER_ID, args, modelLoaderCallbacks);
+            }
+        }
+    }
+
+    private void getTrimsForModel(EdmundsModel selectedModel) {
+        if(selectedModel != null && selectedModel.getYears() != null && selectedModel.getYears().size() > 0) {
+            if(selectedModel.getYears().get(0) != null && selectedModel.getYears().get(0).getStyles() != null && selectedModel.getYears().get(0).getStyles().size() > 0) {
+                setupTrimAdapter(selectedModel.getYears().get(0).getStyles());
+                trimSpinner.setEnabled(true);
             }
         }
     }

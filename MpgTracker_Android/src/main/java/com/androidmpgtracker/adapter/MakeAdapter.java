@@ -31,7 +31,7 @@ public class MakeAdapter extends MpgBaseSpinnerAdapter<EdmundsMake> {
         if(dataList != null && dataList.size() > position && dataList.get(position) != null) {
             return dataList.get(position).getName();
         } else {
-            return "";
+            return context.getString(R.string.select);
         }
     }
 }

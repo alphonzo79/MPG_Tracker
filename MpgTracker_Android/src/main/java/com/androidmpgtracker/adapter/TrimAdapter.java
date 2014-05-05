@@ -2,6 +2,7 @@ package com.androidmpgtracker.adapter;
 
 import android.content.Context;
 
+import com.androidmpgtracker.R;
 import com.androidmpgtracker.data.entities.EdmundsStyle;
 import com.androidmpgtracker.data.entities.EdmundsSubmodel;
 
@@ -26,7 +27,7 @@ public class TrimAdapter extends MpgBaseSpinnerAdapter<EdmundsStyle> {
         if(dataList != null && dataList.size() > position && dataList.get(position) != null) {
             return dataList.get(position).getName();
         } else {
-            return "";
+            return context.getString(R.string.select);
         }
     }
 }
