@@ -349,6 +349,14 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.save_car_button:
+                break;
+        }
         //todo
+    }
+
+    public interface AddEditVehicleListener {
+        public void goToCustomVehicleFragment(int year, String make, String model);
     }
 }

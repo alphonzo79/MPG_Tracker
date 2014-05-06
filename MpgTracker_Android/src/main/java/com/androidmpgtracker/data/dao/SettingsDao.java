@@ -119,7 +119,7 @@ public class SettingsDao extends MpgDatabaseHelper {
     private boolean performInsert(String settingName, String settingValue) {
         boolean success = false;
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         SQLiteStatement sqlStatement = db.compileStatement(String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", TABLE_NAME, SETTING_NAME, SETTING_VALUE));
         sqlStatement.bindString(1, settingName);
@@ -149,7 +149,7 @@ public class SettingsDao extends MpgDatabaseHelper {
     private boolean performUpdate(String settingName, String settingValue) {
         boolean success = false;
 
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         SQLiteStatement sqlStatement = db.compileStatement(String.format("UPDATE %s SET %s = ? WHERE %s = ?", TABLE_NAME, SETTING_VALUE, SETTING_NAME));
         sqlStatement.bindString(1, settingValue);
