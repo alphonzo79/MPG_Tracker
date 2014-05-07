@@ -10,6 +10,9 @@
     <string name="my_cars">My Vehicles</string>
     <string name="add_vehicle">+  Add A Vehicle</string>
     <string name="add_vehicle_header">Add A New Vehicle</string>
+    <string name="edit_vehicle_header">Edit Vehicle</string>
+    <string name="add_custom_vehicle_header">Add a Custom Vehicle</string>
+    <string name="edit_custom_vehicle_header">Edit Custom Vehicle</string>
     <string name="data_sharing">Data Sharing</string>
     <string name="share_data">Share Mileage Data</string>
     <string name="share_data_text">Share non-identifying data about your fill ups and help build a community database of information about each model of vehicle.</string>
@@ -24,6 +27,7 @@
     <string name="select">Select&#8230;</string>
 
     <string name="save">Save</string>
+    <string name="save_error">There was an error saving your vehicle. Please check your data and try again.</string>
     <string name="car_not_listed">My Car Isn\'t Listed</string>
     <string name="year">Year</string>
     <string name="year_error">Sorry, there are no results for the selected year.</string>

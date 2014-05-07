@@ -12,10 +12,14 @@ import android.support.v4.app.FragmentManager;
 
 import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
+import com.androidmpgtracker.data.entities.Vehicle;
+import com.androidmpgtracker.fragment.CustomVehicleFragment;
+import com.androidmpgtracker.fragment.FragmentAddEditVehicle;
+import com.androidmpgtracker.fragment.MpgFragmentListener;
 import com.androidmpgtracker.fragment.SettingsMainFragment;
 import com.flurry.android.FlurryAgent;
 
-public class SettingsActivity extends FragmentActivity {
+public class SettingsActivity extends FragmentActivity implements FragmentAddEditVehicle.AddEditVehicleListener, MpgFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +55,18 @@ public class SettingsActivity extends FragmentActivity {
         trans.replace(R.id.content_container, fragment, null);
         trans.addToBackStack(null);
         trans.commit();
+    }
+
+    @Override
+    public void goToCustomVehicleFragment(Vehicle vehicle) {
+        getSupportFragmentManager().popBackStack();
+        CustomVehicleFragment fragment = new CustomVehicleFragment();
+        fragment.setVehicle(vehicle);
+        replaceContentFragment(fragment);
+    }
+
+    @Override
+    public void killFragment() {
+        getSupportFragmentManager().popBackStack();
     }
 }

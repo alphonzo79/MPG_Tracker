@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidmpgtracker.R;
@@ -50,7 +51,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     private TrimAdapter trimAdapter;
 
     private Activity activity;
+    private AddEditVehicleListener listener;
+    private MpgFragmentListener fragListener;
 
+    private Button notListedButton;
     private Button saveButton;
 
     private LoaderCallbacks<EdmundsYear> yearMakeLoaderCallbacks;
@@ -63,6 +67,14 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
+
+        if(activity instanceof AddEditVehicleListener) {
+            listener = (AddEditVehicleListener)activity;
+        }
+
+        if(activity instanceof MpgFragmentListener) {
+            fragListener = (MpgFragmentListener)activity;
+        }
     }
 
     @Override
@@ -74,11 +86,17 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         setupModelSpinner();
         setupTrimSpinner();
 
+        notListedButton = (Button)root.findViewById(R.id.not_listed_button);
+        notListedButton.setOnClickListener(this);
+
         saveButton = (Button)root.findViewById(R.id.save_car_button);
+        saveButton.setOnClickListener(this);
         saveButton.setEnabled(false);
 
         if(vehicle == null) {
             vehicle = new Vehicle();
+        } else {
+            ((TextView) root.findViewById(R.id.header)).setText(R.string.edit_vehicle_header);
         }
 
         return root;
@@ -204,6 +222,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         this.vehicle = vehicle;
         if(vehicle == null) {
             this.vehicle = new Vehicle();
+        } else if(root != null) {
+            ((TextView)root.findViewById(R.id.header)).setText(R.string.edit_vehicle_header);
         }
 
         setupYearSpinner();
@@ -382,15 +402,23 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         switch(view.getId()) {
             case R.id.save_car_button:
                 VehiclesDao dao = new VehiclesDao(activity);
-                if(vehicle != null) {
-                    dao.saveVehicle(vehicle);
+                if(dao.saveVehicle(vehicle)) {
+                    if(fragListener != null) {
+                        fragListener.killFragment();
+                    }
+                } else {
+                    Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.not_listed_button:
+                if(listener != null) {
+                    listener.goToCustomVehicleFragment(vehicle);
                 }
                 break;
         }
-        //todo
     }
 
     public interface AddEditVehicleListener {
-        public void goToCustomVehicleFragment(int year, String make, String model);
+        public void goToCustomVehicleFragment(Vehicle vehicle);
     }
 }
