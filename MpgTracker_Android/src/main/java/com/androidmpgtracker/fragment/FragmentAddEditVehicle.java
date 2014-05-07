@@ -2,6 +2,7 @@ package com.androidmpgtracker.fragment;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.os.AsyncTask;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.os.Bundle;
@@ -401,14 +402,25 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.save_car_button:
-                VehiclesDao dao = new VehiclesDao(activity);
-                if(dao.saveVehicle(vehicle)) {
-                    if(fragListener != null) {
-                        fragListener.killFragment();
+                new AsyncTask<Void, Void, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(Void... voids) {
+                        VehiclesDao dao = new VehiclesDao(activity);
+                        return dao.saveVehicle(vehicle);
                     }
-                } else {
-                    Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
-                }
+
+                    @Override
+                    protected void onPostExecute(Boolean success) {
+                        if(success) {
+                            if(fragListener != null) {
+                                fragListener.killFragment();
+                            }
+                        } else {
+                            Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }.execute();
                 break;
             case R.id.not_listed_button:
                 if(listener != null) {

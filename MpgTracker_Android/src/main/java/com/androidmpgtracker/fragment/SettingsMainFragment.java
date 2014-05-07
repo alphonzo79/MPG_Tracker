@@ -15,9 +15,13 @@ import com.androidmpgtracker.R;
 import com.androidmpgtracker.Utils.FlurryEvents;
 import com.androidmpgtracker.activity.SettingsActivity;
 import com.androidmpgtracker.data.dao.SettingsDao;
+import com.androidmpgtracker.data.dao.VehiclesDao;
 import com.androidmpgtracker.data.entities.Vehicle;
 import com.androidmpgtracker.view.MpgSwitchView;
+import com.androidmpgtracker.view.VehicleView;
 import com.flurry.android.FlurryAgent;
+
+import java.util.List;
 
 public class SettingsMainFragment extends Fragment implements View.OnClickListener {
     private View root;
@@ -78,7 +82,7 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
         }
         root.findViewById(R.id.add_vehicle).setOnClickListener(this);
 
-        //todo vehicle setup stuff here
+        new PopulateVehiclesAsyncTask().execute();
 
         sharingLayout = (LinearLayout) root.findViewById(R.id.sharing_container);
         if(sharingExpanded) {
@@ -172,6 +176,34 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
         if(dataSwitch != null && usageSwitch != null) {
             dataSwitch.setSelectedNoAnimate(shareData);
             usageSwitch.setSelectedNoAnimate(shareUsage);
+        }
+    }
+
+    private class PopulateVehiclesAsyncTask extends AsyncTask<Void, Void, List<Vehicle>> {
+
+        @Override
+        protected List<Vehicle> doInBackground(Void... voids) {
+            List<Vehicle> result = null;
+
+            VehiclesDao dao = new VehiclesDao(activity);
+            result = dao.getAllVehicles();
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<Vehicle> vehicles) {
+            for(Vehicle vehicle : vehicles) {
+                VehicleView view = new VehicleView(activity, vehicle);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        
+                        //todo
+                    }
+                });
+                vehicleLayout.addView(view);
+            }
         }
     }
 }

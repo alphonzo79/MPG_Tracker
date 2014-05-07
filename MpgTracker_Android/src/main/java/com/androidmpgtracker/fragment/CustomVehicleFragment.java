@@ -1,6 +1,7 @@
 package com.androidmpgtracker.fragment;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -122,14 +123,25 @@ public class CustomVehicleFragment extends Fragment implements View.OnClickListe
                 vehicle.setTrim(trimInput.getText().toString());
                 vehicle.setIsCustom(true);
 
-                VehiclesDao dao = new VehiclesDao(activity);
-                if(dao.saveVehicle(vehicle)) {
-                    if(listener != null) {
-                        listener.killFragment();
+                new AsyncTask<Void, Void, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(Void... voids) {
+                        VehiclesDao dao = new VehiclesDao(activity);
+                        return dao.saveVehicle(vehicle);
                     }
-                } else {
-                    Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
-                }
+
+                    @Override
+                    protected void onPostExecute(Boolean success) {
+                        if(success) {
+                            if(listener != null) {
+                                listener.killFragment();
+                            }
+                        } else {
+                            Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }.execute();
                 break;
         }
     }
