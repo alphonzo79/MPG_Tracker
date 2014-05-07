@@ -70,4 +70,6 @@ public abstract class MpgBaseSpinnerAdapter<T> extends BaseAdapter {
     public void clearDataList() {
         dataList.clear();
     }
+
+    public abstract int indexOf(String displayString);
 }

@@ -20,6 +20,7 @@ import com.androidmpgtracker.adapter.MakeAdapter;
 import com.androidmpgtracker.adapter.ModelAdapter;
 import com.androidmpgtracker.adapter.TrimAdapter;
 import com.androidmpgtracker.adapter.YearAdapter;
+import com.androidmpgtracker.data.dao.VehiclesDao;
 import com.androidmpgtracker.data.entities.EdmundsMake;
 import com.androidmpgtracker.data.entities.EdmundsModel;
 import com.androidmpgtracker.data.entities.EdmundsStyle;
@@ -52,11 +53,6 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
     private Button saveButton;
 
-    private int selectedYear;
-    private EdmundsMake selectedMake;
-    private EdmundsModel selectedModel;
-    private EdmundsStyle selectedTrim;
-
     private LoaderCallbacks<EdmundsYear> yearMakeLoaderCallbacks;
     private final int YEAR_MAKE_LOADER_ID = 45;
 
@@ -81,6 +77,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         saveButton = (Button)root.findViewById(R.id.save_car_button);
         saveButton.setEnabled(false);
 
+        if(vehicle == null) {
+            vehicle = new Vehicle();
+        }
+
         return root;
     }
 
@@ -94,18 +94,22 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 //reset and disable the lower spinners
                 setupMakeAdapter(null);
                 makeSpinner.setEnabled(false);
+                vehicle.setMake(null);
 
                 setupModelAdapter(null);
                 modelSpinner.setEnabled(false);
+                vehicle.setModel(null);
 
                 setupTrimAdapter(null);
                 trimSpinner.setEnabled(false);
+                vehicle.setTrim(null);
+                vehicle.setTrimId(null);
 
                 saveButton.setEnabled(false);
 
                 if(i > 0) {
-                    selectedYear = yearAdapter.getItem(i);
-                    getMakesForYear(selectedYear);
+                    vehicle.setYear(yearAdapter.getItem(i));
+                    getMakesForYear(vehicle.getYear());
                 }
             }
 
@@ -127,14 +131,17 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 //reset and disable the lower spinners
                 setupModelAdapter(null);
                 modelSpinner.setEnabled(false);
+                vehicle.setModel(null);
 
                 setupTrimAdapter(null);
                 trimSpinner.setEnabled(false);
+                vehicle.setTrim(null);
+                vehicle.setTrimId(null);
 
                 if(i > 0) {
                     saveButton.setEnabled(true);
-                    selectedMake = makeAdapter.getItem(i);
-                    getModelsForYearAndMake(selectedYear, selectedMake.getNiceName());
+                    vehicle.setMake(makeAdapter.getItem(i).getName());
+                    getModelsForYearAndMake(vehicle.getYear(), makeAdapter.getItem(i).getNiceName());
                 }
             }
 
@@ -156,10 +163,12 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 //reset and disable the lower spinners
                 setupTrimAdapter(null);
                 trimSpinner.setEnabled(false);
+                vehicle.setTrim(null);
+                vehicle.setTrimId(null);
 
                 if(i > 0) {
-                    selectedModel = modelAdapter.getItem(i);
-                    getTrimsForModel(selectedModel);
+                    vehicle.setModel(modelAdapter.getItem(i).getName());
+                    getTrimsForModel(modelAdapter.getItem(i));
                 }
             }
 
@@ -179,7 +188,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i > 0) {
-                    selectedTrim = trimAdapter.getItem(i);
+                    vehicle.setTrim(trimAdapter.getItem(i).getName());
+                    vehicle.setTrimId(trimAdapter.getItem(i).getId());
                 }
             }
 
@@ -192,7 +202,11 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
-        //todo more
+        if(vehicle == null) {
+            this.vehicle = new Vehicle();
+        }
+
+        setupYearSpinner();
     }
 
     private void setupYearAdapter() {
@@ -203,6 +217,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
             yearList.add(i);
         }
         yearAdapter = new YearAdapter(activity, yearList);
+
+        if(vehicle != null && vehicle.getYear() != null && yearSpinner != null) {
+            yearSpinner.setSelection(yearAdapter.indexOf(String.valueOf(vehicle.getYear())), true);
+        }
     }
 
     private void setupMakeAdapter(List<EdmundsMake> dataList) {
@@ -220,6 +238,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
         makeAdapter.setDataList(makeList);
         makeAdapter.notifyDataSetChanged();
+
+        if(vehicle != null && vehicle.getMake() != null && makeSpinner != null) {
+            makeSpinner.setSelection(makeAdapter.indexOf(vehicle.getMake()), true);
+        }
     }
 
     private void setupModelAdapter(List<EdmundsModel> dataList) {
@@ -237,6 +259,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
         modelAdapter.setDataList(modelList);
         modelAdapter.notifyDataSetChanged();
+
+        if(vehicle != null && vehicle.getModel() != null && modelSpinner != null) {
+            modelSpinner.setSelection(modelAdapter.indexOf(vehicle.getModel()), true);
+        }
     }
 
     private void setupTrimAdapter(List<EdmundsStyle> dataList) {
@@ -254,6 +280,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
         trimAdapter.setDataList(trimList);
         trimAdapter.notifyDataSetChanged();
+
+        if(vehicle != null && vehicle.getTrim() != null && trimSpinner != null) {
+            trimSpinner.setSelection(trimAdapter.indexOf(vehicle.getTrim()), true);
+        }
     }
 
     private void getMakesForYear(int year) {
@@ -351,6 +381,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.save_car_button:
+                VehiclesDao dao = new VehiclesDao(activity);
+                if(vehicle != null) {
+                    dao.saveVehicle(vehicle);
+                }
                 break;
         }
         //todo

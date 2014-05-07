@@ -21,6 +21,15 @@ public class YearAdapter extends MpgBaseSpinnerAdapter<Integer> {
     }
 
     @Override
+    public int indexOf(String displayString) {
+        if(dataList != null) {
+            return dataList.indexOf(displayString);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public long getItemId(int position) {
         if(dataList != null && dataList.size() > position && dataList.get(position) != null) {
             return position;

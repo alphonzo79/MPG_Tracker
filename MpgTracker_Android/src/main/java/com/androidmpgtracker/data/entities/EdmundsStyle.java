@@ -3,16 +3,16 @@ package com.androidmpgtracker.data.entities;
 public class EdmundsStyle extends MpgApiEntity {
     static final long serialVersionUID = -8223122031161500965L;
 
-    private Integer id;
+    private Long id;
     private String name;
     private EdmundsSubmodel submodel;
     private String trim;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,7 +43,7 @@ public class EdmundsStyle extends MpgApiEntity {
     public static EdmundsStyle getBareEntity() {
         EdmundsStyle retVal = new EdmundsStyle();
 
-        retVal.setId(-1);
+        retVal.setId(-1l);
         retVal.setName("");
 
         return retVal;

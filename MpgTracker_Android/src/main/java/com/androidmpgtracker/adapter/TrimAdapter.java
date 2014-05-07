@@ -30,4 +30,20 @@ public class TrimAdapter extends MpgBaseSpinnerAdapter<EdmundsStyle> {
             return context.getString(R.string.select);
         }
     }
+
+    @Override
+    public int indexOf(String displayString) {
+        int index = 0;
+
+        if(dataList != null) {
+            for (int i = 0; i < dataList.size(); i++) {
+                if (dataList.get(i) != null && dataList.get(i).getName() != null && dataList.get(i).getName().equals(displayString)) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
+    }
 }
