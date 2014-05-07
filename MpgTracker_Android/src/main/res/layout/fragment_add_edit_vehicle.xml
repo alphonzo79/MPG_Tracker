@@ -35,8 +35,11 @@
         android:layout_height="match_parent"
         android:layout_above="@id/save_car_button"
         android:layout_below="@id/header"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:background="@color/light_grey"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,14 +54,15 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:text="@string/year"/>
 
             <Spinner
                 android:id="@+id/year_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="125dp"
+                android:minWidth="175dp"
+                android:padding="2dp"
                 android:background="@drawable/spinner_background"
                 android:gravity="center"/>
 
@@ -68,14 +72,15 @@
                 android:layout_marginTop="25dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:text="@string/make"/>
 
             <Spinner
                 android:id="@+id/make_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="125dp"
+                android:minWidth="175dp"
+                android:padding="2dp"
                 android:background="@drawable/spinner_background"
                 android:gravity="center"/>
 
@@ -85,14 +90,15 @@
                 android:layout_marginTop="25dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:text="@string/model"/>
 
             <Spinner
                 android:id="@+id/model_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="125dp"
+                android:minWidth="175dp"
+                android:padding="2dp"
                 android:background="@drawable/spinner_background"
                 android:gravity="center"/>
 
@@ -102,14 +108,15 @@
                 android:layout_marginTop="25dp"
                 android:textStyle="bold"
                 android:textSize="14sp"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:text="@string/trim"/>
 
             <Spinner
                 android:id="@+id/trim_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="125dp"
+                android:minWidth="175dp"
+                android:padding="2dp"
                 android:background="@drawable/spinner_background"
                 android:gravity="center"/>
 

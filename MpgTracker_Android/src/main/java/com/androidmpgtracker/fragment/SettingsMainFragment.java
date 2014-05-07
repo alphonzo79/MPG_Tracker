@@ -160,6 +160,9 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
                 }.execute();
                 break;
             case R.id.about_subhead:
+                if(MpgApplication.isUsageSharingAllowed()) {
+                    FlurryAgent.logEvent(FlurryEvents.ABOUT_FRAGMENT_VISITED);
+                }
                 activity.replaceContentFragment(new AboutFragment());
                 break;
         }
