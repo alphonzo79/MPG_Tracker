@@ -37,9 +37,7 @@
         android:layout_below="@id/header"
         android:background="@color/light_grey"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:layout_marginBottom="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +45,9 @@
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
