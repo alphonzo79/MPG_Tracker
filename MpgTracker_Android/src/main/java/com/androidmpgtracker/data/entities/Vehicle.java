@@ -70,4 +70,18 @@ public class Vehicle extends MpgApiEntity {
     public void setIsCustom(Boolean isCustom) {
         this.isCustom = isCustom;
     }
+
+    public Vehicle getClone() {
+        Vehicle result = new Vehicle();
+
+        result.setId(id);
+        result.setYear(year);
+        result.setMake(make);
+        result.setModel(model);
+        result.setTrim(trim);
+        result.setTrimId(trimId);
+        result.setIsCustom(isCustom);
+
+        return result;
+    }
 }

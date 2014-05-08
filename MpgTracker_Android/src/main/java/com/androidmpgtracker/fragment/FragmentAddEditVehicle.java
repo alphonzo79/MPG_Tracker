@@ -37,6 +37,7 @@ import java.util.List;
 
 public class FragmentAddEditVehicle extends Fragment implements View.OnClickListener {
     private Vehicle vehicle;
+    private Vehicle inputVehicle;
     private View root;
 
     private Spinner yearSpinner;
@@ -137,6 +138,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 //do nothing
             }
         });
+
+        if(inputVehicle != null && inputVehicle.getYear() != null) {
+            yearSpinner.setSelection(yearAdapter.indexOf(String.valueOf(inputVehicle.getYear())), true);
+        }
     }
 
     private void setupMakeSpinner() {
@@ -161,6 +166,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                     saveButton.setEnabled(true);
                     vehicle.setMake(makeAdapter.getItem(i).getName());
                     getModelsForYearAndMake(vehicle.getYear(), makeAdapter.getItem(i).getNiceName());
+                    if(inputVehicle != null) {
+                        //clear out the input vehicle so it will not reset the selection if we change the year
+                        inputVehicle.setMake(null);
+                    }
                 }
             }
 
@@ -188,6 +197,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 if(i > 0) {
                     vehicle.setModel(modelAdapter.getItem(i).getName());
                     getTrimsForModel(modelAdapter.getItem(i));
+                    if(inputVehicle != null) {
+                        //Clear out the model for the input vehicle so it doesn't reset things if we change the year or make
+                        inputVehicle.setModel(null);
+                    }
                 }
             }
 
@@ -209,6 +222,10 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 if(i > 0) {
                     vehicle.setTrim(trimAdapter.getItem(i).getName());
                     vehicle.setTrimId(trimAdapter.getItem(i).getId());
+                    if(inputVehicle != null) {
+                        //Reset the trim for the inputVehicle so it doesn't reset the selection if we chand the year, make or model
+                        inputVehicle.setTrim(null);
+                    }
                 }
             }
 
@@ -220,14 +237,14 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
     }
 
     public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+        this.inputVehicle = vehicle;
+        this.vehicle = vehicle.getClone();
         if(vehicle == null) {
             this.vehicle = new Vehicle();
         } else if(root != null) {
             ((TextView)root.findViewById(R.id.header)).setText(R.string.edit_vehicle_header);
+            setupYearSpinner();
         }
-
-        setupYearSpinner();
     }
 
     private void setupYearAdapter() {
@@ -238,10 +255,6 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
             yearList.add(i);
         }
         yearAdapter = new YearAdapter(activity, yearList);
-
-        if(vehicle != null && vehicle.getYear() != null && yearSpinner != null) {
-            yearSpinner.setSelection(yearAdapter.indexOf(String.valueOf(vehicle.getYear())), true);
-        }
     }
 
     private void setupMakeAdapter(List<EdmundsMake> dataList) {
@@ -260,8 +273,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         makeAdapter.setDataList(makeList);
         makeAdapter.notifyDataSetChanged();
 
-        if(vehicle != null && vehicle.getMake() != null && makeSpinner != null) {
-            makeSpinner.setSelection(makeAdapter.indexOf(vehicle.getMake()), true);
+        if(inputVehicle != null && inputVehicle.getMake() != null && makeSpinner != null) {
+            makeSpinner.setSelection(makeAdapter.indexOf(inputVehicle.getMake()), true);
         }
     }
 
@@ -281,8 +294,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         modelAdapter.setDataList(modelList);
         modelAdapter.notifyDataSetChanged();
 
-        if(vehicle != null && vehicle.getModel() != null && modelSpinner != null) {
-            modelSpinner.setSelection(modelAdapter.indexOf(vehicle.getModel()), true);
+        if(inputVehicle != null && inputVehicle.getModel() != null && modelSpinner != null) {
+            modelSpinner.setSelection(modelAdapter.indexOf(inputVehicle.getModel()), true);
         }
     }
 
@@ -302,8 +315,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
         trimAdapter.setDataList(trimList);
         trimAdapter.notifyDataSetChanged();
 
-        if(vehicle != null && vehicle.getTrim() != null && trimSpinner != null) {
-            trimSpinner.setSelection(trimAdapter.indexOf(vehicle.getTrim()), true);
+        if(inputVehicle != null && inputVehicle.getTrim() != null && trimSpinner != null) {
+            trimSpinner.setSelection(trimAdapter.indexOf(inputVehicle.getTrim()), true);
         }
     }
 

@@ -61,7 +61,8 @@
                 android:id="@+id/year_input"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="14sp"
                 android:background="@drawable/spinner_background"
                 android:inputType="number"
                 android:gravity="center"/>
@@ -79,9 +80,10 @@
                 android:id="@+id/make_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="14sp"
                 android:background="@drawable/spinner_background"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:gravity="center"/>
 
             <TextView
@@ -97,9 +99,10 @@
                 android:id="@+id/model_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="14sp"
                 android:background="@drawable/spinner_background"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:gravity="center"/>
 
             <TextView
@@ -115,9 +118,10 @@
                 android:id="@+id/trim_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="10dp"
+                android:textSize="14sp"
                 android:background="@drawable/spinner_background"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:gravity="center"/>
 
         </LinearLayout>

@@ -15,7 +15,7 @@ public class VehicleView extends LinearLayout {
 
         this.vehicle = vehicle;
 
-        inflate(context, R.layout.view_vehicle_view, null);
+        inflate(context, R.layout.view_vehicle_view, this);
 
         if(vehicle != null) {
             TextView textView = (TextView)findViewById(R.id.year);

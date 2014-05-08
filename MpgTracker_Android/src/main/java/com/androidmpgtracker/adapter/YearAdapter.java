@@ -23,7 +23,7 @@ public class YearAdapter extends MpgBaseSpinnerAdapter<Integer> {
     @Override
     public int indexOf(String displayString) {
         if(dataList != null) {
-            return dataList.indexOf(displayString);
+            return dataList.indexOf(Integer.valueOf(displayString));
         } else {
             return 0;
         }

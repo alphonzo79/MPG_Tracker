@@ -1,6 +1,8 @@
 package com.androidmpgtracker.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
@@ -62,7 +65,6 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
             protected void onPostExecute(Boolean[] result) {
                 shareUsage = result[0];
                 shareData = result[1];
-                Log.d("JAR", "onPostExecute");
                 initializeSwitches();
             }
         }.execute();
@@ -193,16 +195,74 @@ public class SettingsMainFragment extends Fragment implements View.OnClickListen
 
         @Override
         protected void onPostExecute(List<Vehicle> vehicles) {
-            for(Vehicle vehicle : vehicles) {
-                VehicleView view = new VehicleView(activity, vehicle);
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        
-                        //todo
-                    }
-                });
-                vehicleLayout.addView(view);
+            if(vehicles != null) {
+                for (Vehicle vehicle : vehicles) {
+                    VehicleView view = new VehicleView(activity, vehicle);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Vehicle vehicle = ((VehicleView)view).getVehicle();
+                            if(vehicle != null && vehicle.getIsCustom()) {
+                                CustomVehicleFragment fragment = new CustomVehicleFragment();
+                                fragment.setVehicle(vehicle);
+                                activity.replaceContentFragment(fragment);
+                            } else {
+                                FragmentAddEditVehicle fragment = new FragmentAddEditVehicle();
+                                fragment.setVehicle(vehicle);
+                                activity.replaceContentFragment(fragment);
+                            }
+                        }
+                    });
+                    view.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(final View view) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                            builder.setCancelable(true).setMessage(R.string.delete_car);
+                            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    new DeleteVehicleAsyncTask().execute((VehicleView)view);
+                                }
+                            });
+                            builder.show();
+                            return true;
+                        }
+                    });
+                    vehicleLayout.addView(view);
+                }
+            }
+        }
+    }
+
+    private class DeleteVehicleAsyncTask extends AsyncTask<VehicleView, Void, Boolean> {
+        VehicleView containingView;
+
+        @Override
+        protected Boolean doInBackground(VehicleView... views) {
+            boolean success = false;
+
+            if(views[0] != null) {
+                containingView = views[0];
+                Vehicle vehicle = containingView.getVehicle();
+                VehiclesDao dao = new VehiclesDao(activity);
+                success = dao.removeVehicle(vehicle);
+            }
+
+            return success;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if(success && containingView != null) {
+                vehicleLayout.removeView(containingView);
+            } else {
+                Toast.makeText(activity, R.string.delete_error, Toast.LENGTH_LONG).show();
             }
         }
     }
