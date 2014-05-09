@@ -40,6 +40,16 @@
     <string name="delete_car">Are you sure you want to delete this vehicle?</string>
     <string name="delete_error">There was an error deleting your vehicle. Please try again.</string>
 
+    <string name="log_fill_up_header">Log A Fill-Up</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="miles_input_label">Miles Since Last Fill-Up</string>
+    <string name="gallons_input_label">Gallons</string>
+    <string name="price_per_gallon">Price Per Gallon</string>
+    <string name="mpg">MPG</string>
+    <string name="miles_per_gallon">Miles Per Gallon</string>
+    <string name="double_dashes">--</string>
+    <string name="cost_per_mile_label">Per Mile</string>
+
     <string name="about_text" formatted="false"><b>Android MPG Tracker</b> is a simple application that helps you keep track of your gas mileage over time and see your trend over time.\n\n<b>Step One:</b> \nUse the Settings Screen to set up your vehicle profiles. Touch My Vehicles, then Add A Vehicle. Use the dropdowns to select your car\'s year, make, model and trim. Set up as many vehicles as you plan to drive regularly.\n\n<b>Step Two:</b> \nTrack your mileage. If you\'re tracking your mileage we know you\'re already diligent about resetting your trip odometer and putting the mileage and fill-up through your phone\'s calculator. Just keep doing that but instead select Track a Fill-Up from the main screen, select your car from the dropdown and input the data.\n\n<b>Step Three:</b> \nSee how your last tank compares to previous tanks. Over time we will continue to collect data from other drivers of the same vehicle, and as that data builds up you will be able to compare your performance to the community as a whole.\n\n<i>(Data behind vehicle selection is provided by Edmunds)</i></string>
 
 </resources>

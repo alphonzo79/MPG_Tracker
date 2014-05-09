@@ -8,8 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 
+import com.androidmpgtracker.MpgApplication;
+import com.androidmpgtracker.Utils.FlurryEvents;
 import com.androidmpgtracker.data.MpgDatabaseHelper;
 import com.androidmpgtracker.data.entities.Vehicle;
+import com.flurry.android.FlurryAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +74,9 @@ public class VehiclesDao extends MpgDatabaseHelper {
             sqlStatement.execute();
             db.setTransactionSuccessful();
             success = true;
+            if(MpgApplication.isUsageSharingAllowed()) {
+                FlurryAgent.logEvent(FlurryEvents.VEHICLE_SAVED);
+            }
         }
         catch (SQLException ex)
         {
@@ -181,6 +187,9 @@ public class VehiclesDao extends MpgDatabaseHelper {
                 success = true;
             }
             db.setTransactionSuccessful();
+            if(MpgApplication.isUsageSharingAllowed()) {
+                FlurryAgent.logEvent(FlurryEvents.VEHICLE_DELETED);
+            }
         } catch (SQLiteException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {

@@ -8,6 +8,10 @@ public class FlurryEvents {
     public static final String USAGE_SHARING_DISABLED = "usage_sharing_disabled";
     public static final String USAGE_SHARING_ENABLED = "usage_sharing_enabled";
     public static final String ABOUT_FRAGMENT_VISITED = "about_fragment_visited";
+    public static final String VEHICLE_SAVED = "vehicle_saved";
+    public static final String VEHICLE_DELETED = "vehicle_deleted";
+    public static final String LOG_FILL_UP_VISITED = "log_fill_up_visited";
+    public static final String FILL_UP_LOGGED = "fill_up_logged";
 
     public static final String EDMUNDS_API_ERROR = "edmunds_api_error";
 }

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/black">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@string/log_fill_up_header"
+        android:textColor="@color/btn_enabled"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/save_car_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_state_list"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/save_car_button"
+        android:layout_below="@id/header"
+        android:background="@color/light_grey"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/dark_grey"
+                android:text="@string/vehicle"/>
+
+            <Spinner
+                android:id="@+id/car_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="175dp"
+                android:padding="2dp"
+                android:background="@drawable/spinner_background"
+                tools:listitem="@layout/spinner_cell"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/dark_grey"
+                android:text="@string/miles_input_label"/>
+
+            <EditText
+                android:id="@+id/miles_input"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:background="@drawable/spinner_background"
+                android:inputType="numberDecimal"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/dark_grey"
+                android:text="@string/gallons_input_label"/>
+
+            <EditText
+                android:id="@+id/gallons_input"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:background="@drawable/spinner_background"
+                android:inputType="numberDecimal"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/dark_grey"
+                android:text="@string/price_per_gallon"/>
+
+            <EditText
+                android:id="@+id/price_input"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:background="@drawable/spinner_background"
+                android:inputType="numberDecimal"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:gravity="bottom|center_horizontal">
+
+                <TextView
+                    android:id="@+id/mpg_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:textColor="@color/btn_enabled"
+                    android:text="@string/double_dashes"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textStyle="italic"
+                    android:textSize="18sp"
+                    android:textColor="@color/dark_grey"
+                    android:text="@string/mpg" />
+
+                <TextView
+                    android:id="@+id/cost_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:textColor="@color/btn_enabled"
+                    android:text="@string/double_dashes" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textStyle="italic"
+                    android:textSize="18sp"
+                    android:textColor="@color/dark_grey"
+                    android:text="@string/cost_per_mile_label" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

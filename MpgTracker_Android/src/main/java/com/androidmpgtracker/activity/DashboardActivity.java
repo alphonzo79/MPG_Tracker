@@ -17,6 +17,8 @@ public class DashboardActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        findViewById(R.id.view_reports_button).setOnClickListener(this);
+        findViewById(R.id.log_fill_up_button).setOnClickListener(this);
         findViewById(R.id.settings_button).setOnClickListener(this);
     }
 
@@ -39,6 +41,15 @@ public class DashboardActivity extends Activity implements View.OnClickListener 
 
     public void onClick(View view) {
         switch(view.getId()) {
+            case R.id.log_fill_up_button:
+                if(MpgApplication.isUsageSharingAllowed()) {
+                    FlurryAgent.logEvent(FlurryEvents.LOG_FILL_UP_VISITED);
+                }
+                startActivity(new Intent(this, LogFillUpActivity.class));
+                break;
+            case R.id.view_reports_button:
+                //todo
+                break;
             case R.id.settings_button:
                 if(MpgApplication.isUsageSharingAllowed()) {
                     FlurryAgent.logEvent(FlurryEvents.SETTINGS_VISITED);
