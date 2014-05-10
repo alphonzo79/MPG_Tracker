@@ -22,7 +22,7 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/save_car_button"
+        android:id="@+id/save_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -34,7 +34,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/save_car_button"
+        android:layout_above="@id/save_button"
         android:layout_below="@id/header"
         android:background="@color/light_grey"
         android:layout_marginTop="1dp"
@@ -128,7 +128,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal"
                 android:gravity="bottom|center_horizontal">
 
@@ -137,16 +137,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:textSize="30sp"
+                    android:textSize="26sp"
                     android:textColor="@color/btn_enabled"
                     android:text="@string/double_dashes"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="2dp"
                     android:textStyle="italic"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/dark_grey"
                     android:text="@string/mpg" />
 
@@ -154,18 +154,18 @@
                     android:id="@+id/cost_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginLeft="15dp"
                     android:textStyle="bold"
-                    android:textSize="30sp"
+                    android:textSize="26sp"
                     android:textColor="@color/btn_enabled"
                     android:text="@string/double_dashes" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="2dp"
                     android:textStyle="italic"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/dark_grey"
                     android:text="@string/cost_per_mile_label" />
 

@@ -19,7 +19,7 @@ public class VehicleAdapter extends MpgBaseSpinnerAdapter<Vehicle> {
                 displayBuilder.append(String.valueOf(dataList.get(position).getYear())).append(" ");
             }
             if(dataList.get(position).getMake() != null) {
-                displayBuilder.append(dataList.get(position).getYear()).append(" ");
+                displayBuilder.append(dataList.get(position).getMake()).append(" ");
             }
             if(dataList.get(position).getModel() != null) {
                 displayBuilder.append(dataList.get(position).getModel()).append(" ");
@@ -38,7 +38,7 @@ public class VehicleAdapter extends MpgBaseSpinnerAdapter<Vehicle> {
     @Override
     public long getItemId(int i) {
         if(dataList != null && dataList.size() > i && dataList.get(i) != null) {
-            return dataList.get(i).getId();
+            return dataList.get(i).getId() != null ? dataList.get(i).getId() : 0;
         } else {
             return 0;
         }
