@@ -17,6 +17,8 @@ import com.androidmpgtracker.adapter.VehicleAdapter;
 import com.androidmpgtracker.data.dao.VehiclesDao;
 import com.androidmpgtracker.data.entities.Vehicle;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -192,8 +194,8 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
         float mpg = -1l;
         if(!TextUtils.isEmpty(milesString) &&!TextUtils.isEmpty(gallonsString)) {
             try{
-                mpg = Float.valueOf(milesString) / Float.valueOf(gallonsString);
-            } catch(NumberFormatException e) {
+                mpg = NumberFormat.getNumberInstance().parse(milesString).floatValue() / NumberFormat.getNumberInstance().parse(gallonsString).floatValue();
+            } catch(ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -209,8 +211,8 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
             if(!TextUtils.isEmpty(priceString) && mpg > -1) {
                 float costPerMile = -1l;
                 try{
-                    costPerMile = Float.valueOf(priceString.substring(currencySymbol.length())) / mpg;
-                } catch(NumberFormatException e) {
+                    costPerMile = NumberFormat.getNumberInstance().parse(priceString.substring(currencySymbol.length())).floatValue() / mpg;
+                } catch(ParseException e) {
                     e.printStackTrace();
                 }
 
