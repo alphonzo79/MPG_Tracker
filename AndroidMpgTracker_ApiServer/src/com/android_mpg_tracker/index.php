@@ -7,7 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
-
+include_once 'includes/db.inc';
+include_once 'includes/authenticate.inc';
 
 Print <<<HEADER
 
