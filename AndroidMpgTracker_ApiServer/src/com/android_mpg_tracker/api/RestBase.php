@@ -38,7 +38,7 @@ class RestBase {
         }
 
         if($result) {
-            $row = mysql_fetch_array($result, $this->mysql);
+            $row = mysql_fetch_array($result);
             if($row && $row[0] == $client && $row[1] == $secret) {
                 return true;
             }
