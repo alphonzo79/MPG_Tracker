@@ -38,19 +38,34 @@ function get_community_mpg($mysql) {
     $car_id = $_GET["car_id"];
     $car_id_clean = mysql_real_escape_string($car_id, $mysql);
 
-    $entries = mysql_query("SELECT mpg FROM fill_ups WHERE car_id=".$car_id_clean.";", $mysql);
+    if(!empty($car_id_clean))  {
+        //first find out how many so we can filter out outliers (highest and lowest 10%)
+        $count_result = mysql_query("SELECT count(*) FROM fill_ups WHERE car_id=".$car_id_clean.";", $mysql);
+        $count = 0;
+        if($count_result) {
+            $row = mysql_fetch_array($count_result, MYSQL_NUM);
+            $count = $row[0];
+            $ten_percent = (int)($count / 10);
+            $count = $count - ($ten_percent * 2);
 
-    $count = 0;
-    $total = 0;
-    if($entries) {
-        while($row = mysql_fetch_array($entries)) {
-            $count++;
-            $total += $row[0];
+            if($count > 0) {
+                //Now get results starting after the first 10% and ending before the last 10%
+                $entries = mysql_query("SELECT mpg FROM fill_ups WHERE car_id=".$car_id_clean." ORDER BY mpg ASC LIMIT ".$count." OFFSET ".$ten_percent.";", $mysql);
+                $total = 0;
+                if($entries) {
+                    $found_count = mysql_num_rows($entries);
+                    while($row = mysql_fetch_array($entries)) {
+                        $count++;
+                        echo $row[0]."<br />";
+                        $total += $row[0];
+                    }
+                }
+
+                if($count > 0 && $total > 0) {
+                    $ret_val = $total / $count;
+                }
+            }
         }
-    }
-
-    if($count > 0 && $total > 0) {
-        $ret_val = $total / $count;
     }
 
     return $ret_val;
