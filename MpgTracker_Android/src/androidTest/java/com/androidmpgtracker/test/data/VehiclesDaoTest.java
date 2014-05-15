@@ -244,4 +244,38 @@ public class VehiclesDaoTest extends SimpleDashboardInstrumentedBase {
 
         assertEquals("There were not three vehicles as expected", 3, collectedVehicles);
     }
+
+    public void testGetSpecificVehicle() {
+        Vehicle input = new Vehicle();
+        input.setYear(2005);
+        input.setMake("Fake Make" + System.currentTimeMillis());
+        input.setModel("Fake Model" + System.currentTimeMillis());
+        input.setTrim("Fake Trim" + System.currentTimeMillis());
+        input.setTrimId( + System.currentTimeMillis());
+        input.setIsCustom(false);
+
+        boolean success = vehiclesDao.saveVehicle(input);
+        assertTrue("The vehicle did not save", success);
+        toCleanup.add(input);
+
+        //get all vehicles and loop through them to find the id of the one we need
+        List<Vehicle> foundList = vehiclesDao.getAllVehicles();
+        assertNotNull("The full list was null", foundList);
+        assertTrue("The full list was empty", foundList.size() > 0);
+        long vehicleId = -1;
+        for(Vehicle vehicle : foundList) {
+            if(vehicle.getMake().equals(input.getMake())) {
+                vehicleId = vehicle.getId();
+                break;
+            }
+        }
+        assertTrue("We didn't find our target vehicle in the returned list", vehicleId >= 0);
+
+        Vehicle found = vehiclesDao.getVehicle(vehicleId);
+        assertNotNull("The dao didn't return a vehicle when we searched by id", found);
+        assertEquals("The returned vehicle didn't match the one we put in", input.getMake(), found.getMake());
+
+        found = vehiclesDao.getVehicle(-123);
+        assertNull("The dao returned a vehicle when it shouldn't have", found);
+    }
 }

@@ -176,6 +176,38 @@ public class VehiclesDao extends MpgDatabaseHelper {
         return result;
     }
 
+    public Vehicle getVehicle(long carId) {
+        Vehicle result = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = new String[]{COLUMN_ID, COLUMN_YEAR, COLUMN_MAKE, COLUMN_MODEL, COLUMN_TRIM, COLUMN_TRIM_ID, COLUMN_IS_CUSTOM};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_ID + "=?", new String[]{String.valueOf(carId)}, null, null, null);
+        if(cursor != null && cursor.getCount() > 0) {
+            try {
+                cursor.moveToFirst();
+                result = new Vehicle();
+                result.setId(cursor.getLong(0));
+                result.setYear(((int)cursor.getLong(1)));
+                result.setMake(cursor.getString(2));
+                result.setModel(cursor.getString(3));
+                result.setTrim(cursor.getString(4));
+                result.setTrimId(cursor.getLong(5));
+                result.setIsCustom(Boolean.valueOf(cursor.getString(6)));
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            } catch (CursorIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        db.close();
+
+        return result;
+    }
+
     public boolean removeVehicle(Vehicle vehicle) {
         boolean success = false;
 

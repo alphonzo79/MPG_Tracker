@@ -1,8 +1,11 @@
 package com.androidmpgtracker.data.dao;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 
 import com.androidmpgtracker.MpgApplication;
@@ -11,6 +14,7 @@ import com.androidmpgtracker.data.MpgDatabaseHelper;
 import com.androidmpgtracker.data.entities.FillUp;
 import com.flurry.android.FlurryAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FillUpsDao extends MpgDatabaseHelper {
@@ -69,13 +73,67 @@ public class FillUpsDao extends MpgDatabaseHelper {
     }
 
     public FillUp getMostRecentFillUp() {
-        //todo
-        return null;
+        FillUp result = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = new String[]{COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_ID + " IS NOT NULL", null, null, null, COLUMN_DATE + " DESC", "1");
+        if(cursor != null && cursor.getCount() > 0) {
+            try {
+                cursor.moveToFirst();
+
+                result = new FillUp();
+                result.setCarId(cursor.getLong(0));
+                result.setDate(cursor.getLong(1));
+                result.setMiles(cursor.getFloat(2));
+                result.setGallons(cursor.getFloat(3));
+                result.setPricePerGallon(cursor.getFloat(4));
+                result.setTotalCost(cursor.getFloat(5));
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            } catch (CursorIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        db.close();
+
+        return result;
     }
 
     public FillUp getMostRecentFillUp(long carId) {
-        //todo
-        return null;
+        FillUp result = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = new String[]{COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_CAR_ID + "=?", new String[]{String.valueOf(carId)}, null, null, COLUMN_DATE + " DESC", "1");
+        if(cursor != null && cursor.getCount() > 0) {
+            try {
+                cursor.moveToFirst();
+
+                result = new FillUp();
+                result.setCarId(cursor.getLong(0));
+                result.setDate(cursor.getLong(1));
+                result.setMiles(cursor.getFloat(2));
+                result.setGallons(cursor.getFloat(3));
+                result.setPricePerGallon(cursor.getFloat(4));
+                result.setTotalCost(cursor.getFloat(5));
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            } catch (CursorIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        db.close();
+
+        return result;
     }
 
     /**
@@ -86,7 +144,48 @@ public class FillUpsDao extends MpgDatabaseHelper {
      * @return
      */
     public List<FillUp> getRecentFillUps(long carId, int count, boolean mostRecentFirst) {
-        //todo
-        return null;
+        List<FillUp> result = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String limit = null;
+        if(count >= 0) {
+            limit = String.valueOf(count);
+        }
+
+        String order = " ASC";
+        if(mostRecentFirst) {
+            order = " DESC";
+        }
+
+        String[] columns = new String[]{COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_CAR_ID + "=?", new String[]{String.valueOf(carId)}, null, null, COLUMN_DATE + order, limit);
+        if(cursor != null && cursor.getCount() > 0) {
+            try {
+                result = new ArrayList<FillUp>();
+
+                while(cursor.moveToNext()) {
+                    FillUp fillUp = new FillUp();
+                    fillUp.setCarId(cursor.getLong(0));
+                    fillUp.setDate(cursor.getLong(1));
+                    fillUp.setMiles(cursor.getFloat(2));
+                    fillUp.setGallons(cursor.getFloat(3));
+                    fillUp.setPricePerGallon(cursor.getFloat(4));
+                    fillUp.setTotalCost(cursor.getFloat(5));
+
+                    result.add(fillUp);
+                }
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            } catch (CursorIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        db.close();
+
+        return result;
     }
 }
