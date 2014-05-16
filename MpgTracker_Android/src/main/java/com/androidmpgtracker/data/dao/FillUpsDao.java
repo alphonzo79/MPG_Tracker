@@ -37,7 +37,7 @@ public class FillUpsDao extends MpgDatabaseHelper {
 
         SQLiteDatabase db = getWritableDatabase();
 
-        SQLiteStatement stmt = db.compileStatement(String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?", TABLE_NAME, COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST));
+        SQLiteStatement stmt = db.compileStatement(String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?);", TABLE_NAME, COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST));
         stmt.bindLong(1, carId);
         stmt.bindLong(2, System.currentTimeMillis());
         stmt.bindDouble(3, miles);
