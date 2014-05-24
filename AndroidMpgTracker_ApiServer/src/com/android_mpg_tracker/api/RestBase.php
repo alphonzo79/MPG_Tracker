@@ -26,8 +26,8 @@ class RestBase {
     }
 
     private function authenticate_client() {
-        $client = $_POST['client'];
-        $secret = $_POST['secret'];
+        $client = $_SERVER['client'];
+        $secret = $_SERVER['secret'];
         $result = false;
 
         $client_clean = mysql_real_escape_string($client, $this->mysql);
@@ -51,7 +51,7 @@ class RestBase {
         $result = false;
         if($_SERVER['REQUEST_METHOD'] != "GET" || $_SERVER['REQUEST_METHOD'] != "POST") {
             $this->prepare_and_send_response("MethodNotAllowed", null);
-        } else if(empty($_POST['client']) || empty($_POST['secret'])) {
+        } else if(empty($_SERVER['client']) || empty($_SERVER['secret'])) {
             $this->prepare_and_send_response("AthenticationRequired", null);
         } else {
             $result = $this->authenticate_client();
