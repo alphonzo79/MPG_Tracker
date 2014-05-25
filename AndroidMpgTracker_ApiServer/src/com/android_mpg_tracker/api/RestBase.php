@@ -49,7 +49,7 @@ class RestBase {
 
     function validate_request() {
         $result = false;
-        if($_SERVER['REQUEST_METHOD'] != "GET" || $_SERVER['REQUEST_METHOD'] != "POST") {
+        if($_SERVER['REQUEST_METHOD'] != "GET" && $_SERVER['REQUEST_METHOD'] != "POST") {
             $this->prepare_and_send_response("MethodNotAllowed", null);
         } else if(empty($_SERVER['client']) || empty($_SERVER['secret'])) {
             $this->prepare_and_send_response("AthenticationRequired", null);
