@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -28,9 +29,15 @@ public class SettingsActivity extends FragmentActivity implements FragmentAddEdi
         setContentView(R.layout.activity_settings);
 
         if(savedInstanceState == null) {
-            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.content_container, new SettingsMainFragment(), null);
-            trans.commit();
+            if(getIntent().getBooleanExtra("com.androidmpgtracker.setupvehicle", false)) {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                trans.add(R.id.content_container, new FragmentAddEditVehicle(), null);
+                trans.commit();
+            } else {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                trans.add(R.id.content_container, new SettingsMainFragment(), null);
+                trans.commit();
+            }
         }
     }
 
@@ -67,6 +74,10 @@ public class SettingsActivity extends FragmentActivity implements FragmentAddEdi
 
     @Override
     public void killFragment() {
-        getSupportFragmentManager().popBackStack();
+        if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            this.finish();
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.androidmpgtracker.data.Method;
 import com.androidmpgtracker.data.MpgEdmundsRequest;
+import com.androidmpgtracker.data.NetworkCallExecutor;
 import com.androidmpgtracker.data.entities.EdmundsMake;
 import com.google.gson.Gson;
 
@@ -26,7 +27,7 @@ public class ModelsForYearMakeLoader extends MpgBaseLoader<EdmundsMake> {
             request.addParam("view", "basic");
             request.addParam("fmt", "json");
 
-            request = sendEdmundsRequestAndWait(request);
+            request = new NetworkCallExecutor().sendEdmundsRequestAndWait(request);
             if(request.getResponse() != null) {
                 result = new Gson().fromJson(request.getResponse(), EdmundsMake.class);
             }

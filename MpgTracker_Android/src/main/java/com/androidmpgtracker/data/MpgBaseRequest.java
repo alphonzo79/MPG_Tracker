@@ -12,6 +12,8 @@ public abstract class MpgBaseRequest implements Serializable {
     protected String requestMethod;
     protected TreeMap<String, String> params = new TreeMap<String, String >();
     protected JsonObject response;
+    protected Integer responseCode;
+    protected String errorMessage;
 
     protected Properties apiProperties;
 
@@ -77,6 +79,26 @@ public abstract class MpgBaseRequest implements Serializable {
 
     public String getApiSecret() {
         return apiProperties.getProperty("secret");
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public Integer getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(Integer responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     protected abstract void setUpApiProps(Context context);

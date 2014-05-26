@@ -6,7 +6,6 @@
  * Time: 9:18 PM
  * To change this template use File | Settings | File Templates.
  */
-
 include_once "../includes/db_funcs.inc";
 
 class RestBase {
@@ -77,5 +76,3 @@ class RestBase {
         echo $json_response;
     }
 }
-
-?>

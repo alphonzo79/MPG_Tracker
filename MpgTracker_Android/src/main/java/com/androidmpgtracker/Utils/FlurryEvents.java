@@ -12,6 +12,8 @@ public class FlurryEvents {
     public static final String VEHICLE_DELETED = "vehicle_deleted";
     public static final String LOG_FILL_UP_VISITED = "log_fill_up_visited";
     public static final String FILL_UP_LOGGED = "fill_up_logged";
+    public static final String FILL_UP_SENT_TO_SERVER = "fill_up_sent_to_server";
 
     public static final String EDMUNDS_API_ERROR = "edmunds_api_error";
+    public static final String MPG_API_ERROR = "mpg_api_error";
 }

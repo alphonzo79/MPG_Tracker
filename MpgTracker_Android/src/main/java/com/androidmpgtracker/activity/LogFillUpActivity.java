@@ -1,20 +1,32 @@
 package com.androidmpgtracker.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
 import com.androidmpgtracker.adapter.VehicleAdapter;
+import com.androidmpgtracker.data.Method;
+import com.androidmpgtracker.data.MpgApiRequest;
+import com.androidmpgtracker.data.NetworkCallExecutor;
+import com.androidmpgtracker.data.dao.FillUpsDao;
+import com.androidmpgtracker.data.dao.SettingsDao;
 import com.androidmpgtracker.data.dao.VehiclesDao;
+import com.androidmpgtracker.data.entities.FillUp;
 import com.androidmpgtracker.data.entities.Vehicle;
 
 import java.text.NumberFormat;
@@ -59,6 +71,18 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
         vehicleAdapter = new VehicleAdapter(this, vehicleList);
         vehicleSpinner.setAdapter(vehicleAdapter);
 
+        try {
+            currencySymbol = Currency.getInstance(Locale.getDefault()).getSymbol();
+        } catch(IllegalArgumentException e) {
+            e.printStackTrace();
+            currencySymbol = "$";
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         new AsyncTask<Void, Void, List<Vehicle>>() {
 
             @Override
@@ -69,17 +93,26 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
 
             @Override
             protected void onPostExecute(List<Vehicle> vehicleList) {
-                vehicleAdapter.setDataList(vehicleList);
-                vehicleAdapter.notifyDataSetChanged();
+                if(vehicleList != null && vehicleList.size() > 0) {
+                    vehicleAdapter.setDataList(vehicleList);
+                    vehicleAdapter.notifyDataSetChanged();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LogFillUpActivity.this);
+                    builder.setMessage(R.string.must_have_a_vehilce);
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent saveCar = new Intent(LogFillUpActivity.this, SettingsActivity.class);
+                            saveCar.putExtra("com.androidmpgtracker.setupvehicle", true);
+                            startActivity(saveCar);
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.show();
+                }
             }
         }.execute();
-
-        try {
-            currencySymbol = Currency.getInstance(Locale.getDefault()).getSymbol();
-        } catch(IllegalArgumentException e) {
-            e.printStackTrace();
-            currencySymbol = "$";
-        }
     }
 
     private TextWatcher milesTextWatcher = new TextWatcher() {
@@ -232,6 +265,56 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        //todo
+        FillUpsDao fillUpsDao = new FillUpsDao(this);
+        Vehicle vehicle = vehicleAdapter.getItem(vehicleSpinner.getSelectedItemPosition());
+
+        float miles = -1;
+        try {
+            miles = NumberFormat.getInstance().parse(milesInput.getText().toString()).floatValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        float gallons = -1;
+        try {
+            gallons = NumberFormat.getInstance().parse(gallonsInput.getText().toString()).floatValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Float price = null;
+        try {
+            price = NumberFormat.getInstance().parse(priceInput.getText().toString().substring(currencySymbol.length())).floatValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(miles != -1 && gallons != -1) {
+            fillUpsDao.saveFillUp(vehicle.getId(), miles, gallons, price);
+
+            SettingsDao settingsDao = new SettingsDao(this);
+            if(settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
+                float mpg = miles / gallons;
+                Log.d("MPG", "car trim id is " + vehicle.getTrimId());
+                new AsyncTask<Float, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Float... floats) {
+                        MpgApiRequest request = new MpgApiRequest(LogFillUpActivity.this, Method.SAVE_FILL_UP_BASE);
+                        request.setPostMethod(Method.SAVE_FILL_UP_METHOD);
+                        Log.d("MPG", "car trim id is " + floats[0]);
+                        request.addParam("car_id", String.valueOf(floats[0].longValue()));
+                        request.addParam("mpg", String.valueOf(floats[1]));
+
+                        new NetworkCallExecutor().sendMpgPostAndWait(request);
+                        return null;
+                    }
+                }.execute(vehicle.getTrimId().floatValue(), mpg);
+            }
+
+            //todo launch the reports activity
+        } else {
+            Toast.makeText(this, R.string.miles_gallons_required, Toast.LENGTH_LONG).show();
+        }
     }
 }

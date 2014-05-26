@@ -6,7 +6,6 @@
  * Time: 11:09 PM
  * To change this template use File | Settings | File Templates.
  */
-
 include_once "db.inc";
 
 function connect_to_db() {
@@ -15,5 +14,3 @@ function connect_to_db() {
 
     return $con;
 }
-
-?>
