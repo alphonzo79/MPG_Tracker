@@ -20,12 +20,17 @@ if($rest_obj->validate_request()) {
 
     if($method == 'getCommunityMpg') {
         $result = get_community_mpg($mysql);
-        $rest_obj->prepare_and_send_response("Success", $result);
-    } else if($method == 'logMpg') {
-        if(log_mpg($mysql)) {
-            $rest_obj->prepare_and_send_response("Success", true);
+        if($result) {
+            $rest_obj->prepare_and_send_response("Success", $result);
         } else {
-            $rest_obj->prepare_and_send_response("UnknownError", false);
+            $rest_obj->prepare_and_send_response("UnknownError", $result);
+        }
+    } else if($method == 'logMpg') {
+        $result = log_mpg($mysql);
+        if($result) {
+            $rest_obj->prepare_and_send_response("Success", $result);
+        } else {
+            $rest_obj->prepare_and_send_response("UnknownError", $result);
         }
     } else {
         $rest_obj->prepare_and_send_response("BadRequest", null);
@@ -68,7 +73,7 @@ function get_community_mpg($mysql) {
         }
     }
 
-    return $ret_val;
+    return array("data" => $ret_val);
 }
 
 function log_mpg($mysql) {
@@ -84,7 +89,7 @@ function log_mpg($mysql) {
         $ret_val = mysql_query("INSERT INTO fill_ups (car_id, mpg) VALUES (".$car_id_clean.",".$mpg_clean.")", $mysql);
     }
 
-    return $ret_val;
+    return array("data" => $ret_val);
 }
 
 ?>

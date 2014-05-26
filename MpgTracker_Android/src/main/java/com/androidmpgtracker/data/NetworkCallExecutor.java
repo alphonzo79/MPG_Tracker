@@ -49,56 +49,17 @@ public class NetworkCallExecutor {
             HttpClient client = AndroidHttpClient.newInstance("");
 
             HttpResponse response = client.execute(post);
-//            if(response.getStatusLine().getStatusCode()==200)
-//            {
+            if(response.getStatusLine().getStatusCode()==200) {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
                 String responseString = buffer.readLine();
-            Log.d("MPG", responseString);
-//                JsonParser parser = new JsonParser();
-//                request.setResponse(parser.parse(responseString).getAsJsonObject());
-//                if(request.getResponseCode() == 200)
-//                {
-//                    if(request.getTtl() > 0){
-//                        cacheResponse(request.getCacheKey(), responseString);
-//                    }
-//                } else {
-//                    TreeMap<String, String> paramsMap = request.getParams();
-//                    if (BBcomApplication.isAllowPerformanceSharing()) {
-//                        StringBuilder builder = new StringBuilder();
-//                        builder.append("Method:");
-//                        builder.append(request.getMethodName());
-//                        builder.append(", ResponseCode:");
-//                        builder.append(request.getResponse().getResponseCode());
-//                        builder.append(", ErrorMessage:");
-//                        builder.append(request.getResponse().getErrorMessage());
-//                        builder.append(", Params:");
-//
-//                        StringBuilder paramBuilder = new StringBuilder();
-//                        for(String key : paramsMap.keySet()) {
-//                            if(key.equals("signature") || key.equals("agent") || key.equals("consumer") || key.equals("nonce") || key.equals("timestamp")) {
-//                                continue;
-//                            }
-//                            paramBuilder.append(key);
-//                            paramBuilder.append("=");
-//                            paramBuilder.append(paramsMap.get(key));
-//                            paramBuilder.append("&");
-//                        }
-//
-//                        builder.append(paramBuilder.toString());
-//                        FlurryAgent.onError("ApiCallFailure", builder.toString(), new Throwable());
-//                    }
-//
-//                    String token = paramsMap.get("token");
-//                    if(bbcomresp.getResponseCode() == 504 || TextUtils.isEmpty(token) || token.length() < 5) {
-//                        //The token is bad. Let's try to refresh the session
-//                        RefreshSessionUtil refreshSessionUtil = new RefreshSessionUtil(this);
-//                        refreshSessionUtil.refreshSession(false);
-//                    }
-//                }
+                JsonParser parser = new JsonParser();
+                Log.d("MPG", responseString);
+                request.setResponse(parser.parse(responseString).getAsJsonObject());
+
                 responseString = null;
                 buffer = null;
-//            }
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -106,83 +67,6 @@ public class NetworkCallExecutor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        if(url != null && postBody != null) {
-//            Request.Builder builder = new Request.Builder();
-//            builder.addHeader("client", request.getApiKey());
-//            builder.addHeader("secret", request.getApiSecret());
-//            builder.post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), postBody));
-//            builder.url(url);
-//            Request okRequest = builder.build();
-//            Log.d("MPG", "request string: " + okRequest.toString());
-//
-//            OkHttpClient client = new OkHttpClient();
-//            Call call = client.newCall(okRequest);
-//            try {
-//                Response okResponse = call.execute();
-//                String responseString = okResponse.toString();
-//                Log.d("MPG", responseString);
-//
-//                String code = okResponse.header("code");
-//                String message = okResponse.header("message");
-//                String body = okResponse.body().string();
-//                Log.d("MPG", "code: " + code + " message: " + message + " body: " + body);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-//            //todo headers
-//            HttpURLConnection connection = client.open(url);
-//            OutputStream out = null;
-//            InputStream in = null;
-//            BufferedReader reader = null;
-//            try {
-//                // Write the request.
-//                connection.setRequestMethod("POST");
-//
-//                out = connection.getOutputStream();
-//                out.write(postBody);
-//                out.close();
-//
-//                // Read the response.
-//                if(connection.getResponseCode() == 200) {
-//                    in = connection.getInputStream();
-//                    reader = new BufferedReader(new InputStreamReader(in));
-//                    String responseString = reader.readLine();
-//                    Log.d("MPG", responseString);
-//
-//                    JsonParser parser = new JsonParser();
-//                    request.setResponse(parser.parse(responseString).getAsJsonObject());
-//                } else {
-//                    in = connection.getErrorStream();
-//                    reader = new BufferedReader(new InputStreamReader(in));
-//                    String errorString = reader.readLine();
-//                    Log.d("MPG", errorString);
-//                    if(MpgApplication.isUsageSharingAllowed()) {
-//                        Map<String, String> errorMap = new HashMap<String, String>();
-//                        errorMap.put("mpgApiError", errorString);
-//                        FlurryAgent.logEvent(FlurryEvents.MPG_API_ERROR, errorMap);
-//                    }
-//                }
-//
-//            } catch (ProtocolException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                // Clean up.
-//                try {
-//                    if (out != null) {
-//                        out.close();
-//                    }
-//                    if (in != null) {
-//                        in.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
 
         return request;
     }

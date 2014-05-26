@@ -67,8 +67,8 @@ class RestBase {
         if($code_message == null) {
             $code_message = $this->RESPONSE_STATUS["UnknownError"];
         }
-        header($code_message["Message"], true, $code_message["HTTP Response"]);
-        header('Content-Type: application/json; charset=utf-8');
+//        header($code_message["Message"], true, $code_message["HTTP Response"]);
+//        header('Content-Type: application/json; charset=utf-8');
 
         $json_response = json_encode($response_data);
 
