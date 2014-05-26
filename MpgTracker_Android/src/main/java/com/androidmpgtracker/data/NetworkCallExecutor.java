@@ -13,6 +13,7 @@ import com.squareup.okhttp.OkHttpClient;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -72,63 +73,38 @@ public class NetworkCallExecutor {
     }
 
     public MpgApiRequest sendMpgGetAndWait(MpgApiRequest request) {
-//        StringBuilder urlBuilder = new StringBuilder(request.getRequestPath()).append("?method=");
-//        urlBuilder.append(request.getRequestMethod());
-//        for(String paramKey : request.getParams().keySet()) {
-//            urlBuilder.append(paramKey).append("=").append(request.getParam(paramKey)).append("&");
-//        }
-//
-//        URL url = null;
-//
-//        try {
-//            url = new URL(urlBuilder.toString());
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if(url != null) {
-//            OkHttpClient client = new OkHttpClient();
-//            //todo headers
-//            HttpURLConnection connection = client.open(url);
-//            InputStream in = null;
-//            BufferedReader reader = null;
-//
-//            try {
-//                if(connection.getResponseCode() == 200) {
-//                    in = connection.getInputStream();
-//                    reader = new BufferedReader(new InputStreamReader(in));
-//                    String responseString = reader.readLine();
-//                    Log.d("MPG", responseString);
-//
-//                    JsonParser parser = new JsonParser();
-//                    request.setResponse(parser.parse(responseString).getAsJsonObject());
-//                } else {
-//                    in = connection.getErrorStream();
-//                    reader = new BufferedReader(new InputStreamReader(in));
-//                    String errorString = reader.readLine();
-//                    Log.d("MPG", errorString);
-//                    if(MpgApplication.isUsageSharingAllowed()) {
-//                        Map<String, String> errorMap = new HashMap<String, String>();
-//                        errorMap.put("mpgApiError", errorString);
-//                        FlurryAgent.logEvent(FlurryEvents.MPG_API_ERROR, errorMap);
-//                    }
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (reader != null) {
-//                        reader.close();
-//                    }
-//                    if (in != null) {
-//                        in.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//        }
+        try {
+            StringBuilder pathBuilder = new StringBuilder(request.getRequestPath());
+            for (Map.Entry<String, String> entry : request.getParams().entrySet())
+            {
+                pathBuilder.append("&").append(entry.getKey()).append("=").append(entry.getValue());
+            }
+
+            HttpGet get = new HttpGet(pathBuilder.toString());
+            get.addHeader("client", request.getApiKey());
+            get.addHeader("secret", request.getApiSecret());
+
+            HttpClient client = AndroidHttpClient.newInstance("");
+
+            HttpResponse response = client.execute(get);
+            if(response.getStatusLine().getStatusCode()==200) {
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+                String responseString = buffer.readLine();
+                JsonParser parser = new JsonParser();
+                Log.d("MPG", responseString);
+                request.setResponse(parser.parse(responseString).getAsJsonObject());
+
+                responseString = null;
+                buffer = null;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return request;
     }
