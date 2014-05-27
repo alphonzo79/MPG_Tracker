@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
-import com.androidmpgtracker.Utils.FlurryEvents;
+import com.androidmpgtracker.utils.FlurryEvents;
 import com.flurry.android.FlurryAgent;
 
 public class DashboardActivity extends Activity implements View.OnClickListener {

@@ -1,4 +1,4 @@
-package com.androidmpgtracker.Utils;
+package com.androidmpgtracker.utils;
 
 public class FlurryEvents {
     public static final String SETTINGS_VISITED = "settings_visited";

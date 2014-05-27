@@ -1,11 +1,10 @@
 package com.androidmpgtracker.data;
 
 import android.net.http.AndroidHttpClient;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.androidmpgtracker.MpgApplication;
-import com.androidmpgtracker.Utils.FlurryEvents;
+import com.androidmpgtracker.utils.FlurryEvents;
 import com.flurry.android.FlurryAgent;
 import com.google.gson.JsonParser;
 import com.squareup.okhttp.OkHttpClient;
@@ -29,7 +28,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class NetworkCallExecutor {
 

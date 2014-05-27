@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
-import com.androidmpgtracker.Utils.FlurryEvents;
+import com.androidmpgtracker.utils.FlurryEvents;
 import com.androidmpgtracker.activity.SettingsActivity;
 import com.androidmpgtracker.data.dao.SettingsDao;
 import com.androidmpgtracker.data.dao.VehiclesDao;

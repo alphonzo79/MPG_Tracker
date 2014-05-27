@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 
 import com.androidmpgtracker.MpgApplication;
-import com.androidmpgtracker.Utils.FlurryEvents;
+import com.androidmpgtracker.utils.FlurryEvents;
 import com.androidmpgtracker.data.MpgDatabaseHelper;
 import com.androidmpgtracker.data.entities.FillUp;
 import com.flurry.android.FlurryAgent;

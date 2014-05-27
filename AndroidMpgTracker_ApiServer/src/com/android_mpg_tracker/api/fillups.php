@@ -43,10 +43,11 @@ function get_community_mpg($mysql) {
     $car_id = $_GET["car_id"];
     $car_id_clean = mysql_real_escape_string($car_id, $mysql);
 
+    $count = 0;
+
     if(!empty($car_id_clean))  {
         //first find out how many so we can filter out outliers (highest and lowest 10%)
         $count_result = mysql_query("SELECT count(*) FROM fill_ups WHERE car_id=".$car_id_clean.";", $mysql);
-        $count = 0;
         if($count_result) {
             $row = mysql_fetch_array($count_result, MYSQL_NUM);
             $count = $row[0];
@@ -73,7 +74,7 @@ function get_community_mpg($mysql) {
         }
     }
 
-    return array("data" => $ret_val);
+    return array("data" => array("count" => count($count), "mpg" => $ret_val));
 }
 
 function log_mpg($mysql) {
