@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/black">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@string/reports_header"
+        android:textColor="@color/btn_enabled"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:background="@color/light_grey"
+        android:layout_marginTop="1dp"
+        android:padding="10dp">
+
+        <Spinner
+            android:id="@+id/car_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:minWidth="175dp"
+            android:padding="2dp"
+            android:background="@drawable/spinner_background"
+            tools:listitem="@layout/spinner_cell"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/last_mpg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/car_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="@color/btn_enabled"
+            android:text="25" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/last_mpg"
+            android:layout_marginRight="5dp"
+            android:layout_alignBaseline="@id/last_mpg"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:textColor="@color/dark_grey"
+            android:text="date" />
+
+        <TextView
+            android:id="@+id/last_mpg_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/last_mpg"
+            android:layout_marginLeft="5dp"
+            android:layout_alignBaseline="@id/last_mpg"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:textColor="@color/dark_grey"
+            android:text="@string/mpg" />
+
+        <LinearLayout
+            android:id="@+id/last_fillup_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/last_mpg"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/last_miles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled"
+                android:text="256.56" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/miles" />
+
+            <TextView
+                android:id="@+id/last_gallons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled"
+                android:text="25.56" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/gallons_input_label" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/last_fillup_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/last_fillup_stats"
+            android:layout_marginTop="7dp">
+
+            <TextView
+                android:id="@+id/last_cost_per_gallon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled"
+                android:text="$3.56" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/per_gallon" />
+
+            <TextView
+                android:id="@+id/last_cost_per_mile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled"
+                android:text="$0.56" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/cost_per_mile_label" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ytd_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/last_fillup_money"
+            android:layout_marginTop="5dp">
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
