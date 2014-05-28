@@ -59,10 +59,8 @@ function get_community_mpg($mysql) {
                 $entries = mysql_query("SELECT mpg FROM fill_ups WHERE car_id=".$car_id_clean." ORDER BY mpg ASC LIMIT ".$count." OFFSET ".$ten_percent.";", $mysql);
                 $total = 0;
                 if($entries) {
-                    $found_count = mysql_num_rows($entries);
                     while($row = mysql_fetch_array($entries)) {
                         $count++;
-                        echo $row[0]."<br />";
                         $total += $row[0];
                     }
                 }
@@ -92,5 +90,3 @@ function log_mpg($mysql) {
 
     return array("data" => $ret_val);
 }
-
-?>

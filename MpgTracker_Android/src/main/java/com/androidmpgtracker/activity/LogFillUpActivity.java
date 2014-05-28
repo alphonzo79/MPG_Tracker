@@ -265,56 +265,58 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        FillUpsDao fillUpsDao = new FillUpsDao(this);
-        Vehicle vehicle = vehicleAdapter.getItem(vehicleSpinner.getSelectedItemPosition());
+        if(view.getId() == R.id.save_button) {
+            FillUpsDao fillUpsDao = new FillUpsDao(this);
+            Vehicle vehicle = vehicleAdapter.getItem(vehicleSpinner.getSelectedItemPosition());
 
-        float miles = -1;
-        try {
-            miles = NumberFormat.getInstance().parse(milesInput.getText().toString()).floatValue();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        float gallons = -1;
-        try {
-            gallons = NumberFormat.getInstance().parse(gallonsInput.getText().toString()).floatValue();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Float price = null;
-        try {
-            price = NumberFormat.getInstance().parse(priceInput.getText().toString().substring(currencySymbol.length())).floatValue();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        if(miles != -1 && gallons != -1) {
-            fillUpsDao.saveFillUp(vehicle.getId(), miles, gallons, price);
-
-            SettingsDao settingsDao = new SettingsDao(this);
-            if(settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
-                float mpg = miles / gallons;
-                Log.d("MPG", "car trim id is " + vehicle.getTrimId());
-                new AsyncTask<Float, Void, Void>() {
-
-                    @Override
-                    protected Void doInBackground(Float... floats) {
-                        MpgApiRequest request = new MpgApiRequest(LogFillUpActivity.this, Method.SAVE_FILL_UP_BASE);
-                        request.setPostMethod(Method.SAVE_FILL_UP_METHOD);
-                        Log.d("MPG", "car trim id is " + floats[0]);
-                        request.addParam("car_id", String.valueOf(floats[0].longValue()));
-                        request.addParam("mpg", String.valueOf(floats[1]));
-
-                        new NetworkCallExecutor().sendMpgPostAndWait(request);
-                        return null;
-                    }
-                }.execute(vehicle.getTrimId().floatValue(), mpg);
+            float miles = -1;
+            try {
+                miles = NumberFormat.getInstance().parse(milesInput.getText().toString()).floatValue();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
-            //todo launch the reports activity
-        } else {
-            Toast.makeText(this, R.string.miles_gallons_required, Toast.LENGTH_LONG).show();
+            float gallons = -1;
+            try {
+                gallons = NumberFormat.getInstance().parse(gallonsInput.getText().toString()).floatValue();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Float price = null;
+            try {
+                price = NumberFormat.getInstance().parse(priceInput.getText().toString().substring(currencySymbol.length())).floatValue();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if (miles != -1 && gallons != -1) {
+                fillUpsDao.saveFillUp(vehicle.getId(), miles, gallons, price);
+
+                SettingsDao settingsDao = new SettingsDao(this);
+                if (settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
+                    float mpg = miles / gallons;
+                    Log.d("MPG", "car trim id is " + vehicle.getTrimId());
+                    new AsyncTask<Float, Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground(Float... floats) {
+                            MpgApiRequest request = new MpgApiRequest(LogFillUpActivity.this, Method.SAVE_FILL_UP_BASE);
+                            request.setPostMethod(Method.SAVE_FILL_UP_METHOD);
+                            Log.d("MPG", "car trim id is " + floats[0]);
+                            request.addParam("car_id", String.valueOf(floats[0].longValue()));
+                            request.addParam("mpg", String.valueOf(floats[1]));
+
+                            new NetworkCallExecutor().sendMpgPostAndWait(request);
+                            return null;
+                        }
+                    }.execute(vehicle.getTrimId().floatValue(), mpg);
+                }
+
+                //todo launch the reports activity
+            } else {
+                Toast.makeText(this, R.string.miles_gallons_required, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
