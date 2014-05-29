@@ -1,5 +1,7 @@
 package com.androidmpgtracker.data.entities;
 
+import android.text.TextUtils;
+
 public class Vehicle extends MpgApiEntity {
     static final long serialVersionUID = 8161058626817994594L;
 
@@ -83,5 +85,38 @@ public class Vehicle extends MpgApiEntity {
         result.setIsCustom(isCustom);
 
         return result;
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        if(year != null) {
+            builder.append(year).append(" ");
+        }
+        if(!TextUtils.isEmpty(make)) {
+            builder.append(make).append(" ");
+        }
+        if(!TextUtils.isEmpty(model)) {
+            builder.append(model).append(" ");
+        }
+        if(!TextUtils.isEmpty(trim)) {
+            builder.append(trim);
+        }
+
+        return builder.toString().trim();
+    }
+
+    public String getDisplayString() {
+        StringBuilder builder = new StringBuilder();
+        if(year != null) {
+            builder.append(year).append(" ");
+        }
+        if(!TextUtils.isEmpty(make)) {
+            builder.append(make).append(" ");
+        }
+        if(!TextUtils.isEmpty(model)) {
+            builder.append(model);
+        }
+
+        return builder.toString().trim();
     }
 }

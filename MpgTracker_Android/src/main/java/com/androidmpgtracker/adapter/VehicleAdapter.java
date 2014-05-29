@@ -14,17 +14,7 @@ public class VehicleAdapter extends MpgBaseSpinnerAdapter<Vehicle> {
     @Override
     protected String getDisplayString(int position) {
         if(dataList != null && dataList.size() > position && dataList.get(position) != null) {
-            StringBuilder displayBuilder = new StringBuilder();
-            if(dataList.get(position).getYear() != null) {
-                displayBuilder.append(String.valueOf(dataList.get(position).getYear())).append(" ");
-            }
-            if(dataList.get(position).getMake() != null) {
-                displayBuilder.append(dataList.get(position).getMake()).append(" ");
-            }
-            if(dataList.get(position).getModel() != null) {
-                displayBuilder.append(dataList.get(position).getModel()).append(" ");
-            }
-            return displayBuilder.toString().trim();
+            return dataList.get(position).getDisplayString();
         } else {
             return "";
         }
@@ -32,7 +22,18 @@ public class VehicleAdapter extends MpgBaseSpinnerAdapter<Vehicle> {
 
     @Override
     public int indexOf(String displayString) {
-        return 0;
+        int index = 0;
+
+        if(dataList != null) {
+            for (int i = 0; i < dataList.size(); i++) {
+                if (dataList.get(i) != null && dataList.get(i).getDisplayString() != null && dataList.get(i).getDisplayString().equals(displayString)) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        return index;
     }
 
     @Override

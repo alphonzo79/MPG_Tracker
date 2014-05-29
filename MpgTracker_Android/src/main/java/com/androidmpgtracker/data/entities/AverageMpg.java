@@ -1,6 +1,6 @@
 package com.androidmpgtracker.data.entities;
 
-public class CommunityMpg extends MpgApiEntity {
+public class AverageMpg extends MpgApiEntity {
     private Float mpg;
     private Integer count;
 

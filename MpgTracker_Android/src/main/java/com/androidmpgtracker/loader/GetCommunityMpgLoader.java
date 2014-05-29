@@ -5,10 +5,10 @@ import android.content.Context;
 import com.androidmpgtracker.data.Method;
 import com.androidmpgtracker.data.MpgApiRequest;
 import com.androidmpgtracker.data.NetworkCallExecutor;
-import com.androidmpgtracker.data.entities.CommunityMpg;
+import com.androidmpgtracker.data.entities.AverageMpg;
 import com.google.gson.Gson;
 
-public class GetCommunityMpgLoader extends MpgBaseLoader<CommunityMpg> {
+public class GetCommunityMpgLoader extends MpgBaseLoader<AverageMpg> {
     static final long serialVersionUID = 2518321080928711926L;
     private Long vehicleTrimId;
 
@@ -17,14 +17,14 @@ public class GetCommunityMpgLoader extends MpgBaseLoader<CommunityMpg> {
     }
 
     @Override
-    public CommunityMpg loadInBackground() {
+    public AverageMpg loadInBackground() {
         if(vehicleTrimId != null) {
             MpgApiRequest request = new MpgApiRequest(context, Method.GET_COMMUNITY_MPG);
             request.addParam("car_id", String.valueOf(vehicleTrimId));
 
             request = new NetworkCallExecutor().sendMpgGetAndWait(request);
             if(request.getResponse() != null) {
-                result = new Gson().fromJson(request.getResponse(), CommunityMpg.class);
+                result = new Gson().fromJson(request.getResponse(), AverageMpg.class);
             }
         }
 

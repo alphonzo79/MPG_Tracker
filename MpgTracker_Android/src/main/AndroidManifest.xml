@@ -24,6 +24,7 @@
 
         <activity android:name=".activity.SettingsActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.LogFillUpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.ReportingActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

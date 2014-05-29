@@ -28,6 +28,8 @@ import com.androidmpgtracker.data.dao.SettingsDao;
 import com.androidmpgtracker.data.dao.VehiclesDao;
 import com.androidmpgtracker.data.entities.FillUp;
 import com.androidmpgtracker.data.entities.Vehicle;
+import com.androidmpgtracker.utils.FlurryEvents;
+import com.flurry.android.FlurryAgent;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -308,12 +310,20 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
                             request.addParam("mpg", String.valueOf(floats[1]));
 
                             new NetworkCallExecutor().sendMpgPostAndWait(request);
+
+                            if(MpgApplication.isUsageSharingAllowed()) {
+                                FlurryAgent.logEvent(FlurryEvents.FILL_UP_SENT_TO_SERVER);
+                            }
+
                             return null;
                         }
                     }.execute(vehicle.getTrimId().floatValue(), mpg);
                 }
 
-                //todo launch the reports activity
+                Intent reportIntent = new Intent(this, ReportingActivity.class);
+                reportIntent.putExtra("loggedVehicle", vehicle);
+                startActivity(reportIntent);
+                this.finish();
             } else {
                 Toast.makeText(this, R.string.miles_gallons_required, Toast.LENGTH_LONG).show();
             }

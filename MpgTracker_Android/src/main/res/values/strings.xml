@@ -53,6 +53,8 @@
     <string name="cost_per_mile_label">/Mile</string>
     <string name="miles_gallons_required">Please input valid entries for miles and gallons.</string>
     <string name="must_have_a_vehilce">You must have at least one vehicle saved. Please set up a vehicle and come back when you\'re done</string>
+    <string name="no_logs_for_vehicle">You have not logged any fill-ups for this vehicle. Do you want to enter some information?</string>
+    <string name="records">Records</string>
 
     <string name="reports_header">MPG History</string>
     <string name="per_gallon">/Gallon</string>

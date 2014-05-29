@@ -48,7 +48,10 @@ public class DashboardActivity extends Activity implements View.OnClickListener 
                 startActivity(new Intent(this, LogFillUpActivity.class));
                 break;
             case R.id.view_reports_button:
-                //todo
+                if(MpgApplication.isUsageSharingAllowed()) {
+                    FlurryAgent.logEvent(FlurryEvents.VISIT_REPORTS_FROM_DASH);
+                }
+                startActivity(new Intent(this, ReportingActivity.class));
                 break;
             case R.id.settings_button:
                 if(MpgApplication.isUsageSharingAllowed()) {

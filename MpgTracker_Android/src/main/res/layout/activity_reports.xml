@@ -34,7 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:minWidth="175dp"
-            android:padding="2dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:background="@drawable/spinner_background"
             tools:listitem="@layout/spinner_cell"
             android:gravity="center"/>
@@ -233,6 +236,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal"
                     android:text="@string/my_average" />
 
                 <TextView
@@ -242,7 +246,8 @@
                     android:layout_marginTop="5dp"
                     android:textSize="18sp"
                     android:textStyle="normal"
-                    android:textColor="@color/btn_enabled" />
+                    android:textColor="@color/btn_enabled"
+                    android:gravity="center_horizontal" />
 
                 <TextView
                     android:id="@+id/my_record_count"
@@ -251,7 +256,8 @@
                     android:layout_marginTop="5dp"
                     android:textSize="14sp"
                     android:textStyle="normal"
-                    android:textColor="@color/dark_grey" />
+                    android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal" />
 
             </LinearLayout>
 
@@ -270,6 +276,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal"
                     android:text="@string/community_average" />
 
                 <TextView
@@ -279,7 +286,8 @@
                     android:layout_marginTop="5dp"
                     android:textSize="18sp"
                     android:textStyle="normal"
-                    android:textColor="@color/btn_enabled" />
+                    android:textColor="@color/btn_enabled"
+                    android:gravity="center_horizontal" />
 
                 <TextView
                     android:id="@+id/community_record_count"
@@ -288,7 +296,8 @@
                     android:layout_marginTop="5dp"
                     android:textSize="14sp"
                     android:textStyle="normal"
-                    android:textColor="@color/dark_grey" />
+                    android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal" />
 
             </LinearLayout>
 
