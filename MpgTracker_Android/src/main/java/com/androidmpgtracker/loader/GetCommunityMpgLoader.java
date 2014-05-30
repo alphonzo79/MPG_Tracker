@@ -23,8 +23,8 @@ public class GetCommunityMpgLoader extends MpgBaseLoader<AverageMpg> {
             request.addParam("car_id", String.valueOf(vehicleTrimId));
 
             request = new NetworkCallExecutor().sendMpgGetAndWait(request);
-            if(request.getResponse() != null) {
-                result = new Gson().fromJson(request.getResponse(), AverageMpg.class);
+            if(request.getResponse() != null && request.getResponse().get("data") != null) {
+                result = new Gson().fromJson(request.getResponse().get("data").getAsJsonObject(), AverageMpg.class);
             }
         }
 

@@ -15,6 +15,7 @@ import com.androidmpgtracker.data.entities.FillUp;
 import com.flurry.android.FlurryAgent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class FillUpsDao extends MpgDatabaseHelper {
@@ -160,6 +161,54 @@ public class FillUpsDao extends MpgDatabaseHelper {
 
         String[] columns = new String[]{COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST};
         Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_CAR_ID + "=?", new String[]{String.valueOf(carId)}, null, null, COLUMN_DATE + order, limit);
+        if(cursor != null && cursor.getCount() > 0) {
+            try {
+                result = new ArrayList<FillUp>();
+
+                while(cursor.moveToNext()) {
+                    FillUp fillUp = new FillUp();
+                    fillUp.setCarId(cursor.getLong(0));
+                    fillUp.setDate(cursor.getLong(1));
+                    fillUp.setMiles(cursor.getFloat(2));
+                    fillUp.setGallons(cursor.getFloat(3));
+                    fillUp.setPricePerGallon(cursor.getFloat(4));
+                    fillUp.setTotalCost(cursor.getFloat(5));
+
+                    result.add(fillUp);
+                }
+            } catch (SQLiteException e) {
+                e.printStackTrace();
+            } catch (CursorIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
+        }
+
+        db.close();
+
+        return result;
+    }
+
+    public List<FillUp> getFillUpsYtd(long carId, boolean mostRecentFirst) {
+        List<FillUp> result = null;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        long beginningOfYear = cal.getTimeInMillis();
+
+        String order = " ASC";
+        if(mostRecentFirst) {
+            order = " DESC";
+        }
+
+        String[] columns = new String[]{COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST};
+        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_CAR_ID + "=? AND " + COLUMN_DATE + ">?", new String[]{String.valueOf(carId), String.valueOf(beginningOfYear)}, null, null, COLUMN_DATE + order, null);
         if(cursor != null && cursor.getCount() > 0) {
             try {
                 result = new ArrayList<FillUp>();

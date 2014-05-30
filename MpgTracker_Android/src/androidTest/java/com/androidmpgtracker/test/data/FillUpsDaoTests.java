@@ -1,12 +1,17 @@
 package com.androidmpgtracker.test.data;
 
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteStatement;
 import android.os.SystemClock;
 
+import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.data.dao.FillUpsDao;
 import com.androidmpgtracker.data.entities.FillUp;
+import com.androidmpgtracker.utils.FlurryEvents;
+import com.flurry.android.FlurryAgent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -349,5 +354,81 @@ public class FillUpsDaoTests extends SimpleDashboardInstrumentedBase {
         assertEquals("The first Entry was not the oldest as expected", input1.getGallons(), found.get(0).getGallons());
         assertEquals("The second Entry was not the one we expected", input2.getGallons(), found.get(1).getGallons());
         assertEquals("The third Entry was not the one we expected", input3.getGallons(), found.get(2).getGallons());
+    }
+
+    public void testGetFillupsYtd() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, 3);
+        FillUp input1 = new FillUp();
+        input1.setCarId(-234l);
+        input1.setDate(cal.getTimeInMillis());
+        input1.setPricePerGallon(3.45f);
+        input1.setGallons(12.45f);
+        input1.setMiles(256.4f);
+        toCleanUp.add(input1);
+
+        cal.add(Calendar.YEAR, -1);
+        FillUp input2 = new FillUp();
+        input2.setCarId(-234l);
+        input2.setDate(cal.getTimeInMillis());
+        input2.setPricePerGallon(2.35f);
+        input2.setGallons(11.36f);
+        input2.setMiles(226.6f);
+        toCleanUp.add(input2);
+
+        cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, 5);
+        FillUp input3 = new FillUp();
+        input3.setCarId(-234l);
+        input3.setDate(cal.getTimeInMillis());
+        input3.setPricePerGallon(3.53f);
+        input3.setGallons(6.74f);
+        input3.setMiles(156.4f);
+        toCleanUp.add(input3);
+
+        cal.set(Calendar.MONTH, 6);
+        FillUp input4 = new FillUp();
+        input4.setCarId(-234543l);
+        input4.setDate(cal.getTimeInMillis());
+        input4.setPricePerGallon(3.53f);
+        input4.setGallons(6.74f);
+        input4.setMiles(156.4f);
+        toCleanUp.add(input4);
+
+        SQLiteDatabase db = dao.getWritableDatabase();
+
+        boolean success = false;
+        try {
+            db.beginTransaction();
+            for(FillUp fillUp : toCleanUp) {
+                SQLiteStatement stmt = db.compileStatement(String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?);", dao.TABLE_NAME, dao.COLUMN_CAR_ID, dao.COLUMN_DATE, dao.COLUMN_MILES, dao.COLUMN_GALLONS, dao.COLUMN_PRICE_PER_GALLON, dao.COLUMN_FULL_COST));
+                stmt.bindLong(1, fillUp.getCarId());
+                stmt.bindLong(2, fillUp.getDate());
+                stmt.bindDouble(3, fillUp.getMiles());
+                stmt.bindDouble(4, fillUp.getGallons());
+                stmt.bindDouble(5, fillUp.getPricePerGallon());
+                float totalCost = fillUp.getGallons() * fillUp.getPricePerGallon();
+                stmt.bindDouble(6, totalCost);
+
+                stmt.execute();
+                stmt.close();
+            }
+            db.setTransactionSuccessful();
+            success = true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+
+        assertTrue("The inputs failed, yo.", success);
+
+        List<FillUp> found = dao.getFillUpsYtd(input1.getCarId(), true);
+
+        assertNotNull("The returned list was null", found);
+        assertTrue("There were not three entries in the list", found.size() == 2);
+        assertEquals("The first Entry was not the most recent as expected", input3.getGallons(), found.get(0).getGallons());
+        assertEquals("The second Entry was not the one we expected", input1.getGallons(), found.get(1).getGallons());
     }
 }

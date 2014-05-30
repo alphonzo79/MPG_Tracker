@@ -3,8 +3,11 @@ package com.androidmpgtracker.view;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.androidmpgtracker.R;
@@ -16,7 +19,6 @@ import java.util.List;
 public class MpgHistoryGraph extends LinearLayout {
     private List<FillUp> fillUps;
     private Context context;
-    private int height;
     private float maxMpg = 0;
     private List<Float> mpgList;
 
@@ -33,7 +35,12 @@ public class MpgHistoryGraph extends LinearLayout {
     }
 
     private void init() {
-        if(context != null && fillUps != null && height > 0) {
+        if(context != null && fillUps != null) {
+            setOrientation(HORIZONTAL);
+            setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+
+            int height = getHeight();
+
             removeAllViews();
 
             Resources r = getResources();
@@ -44,12 +51,13 @@ public class MpgHistoryGraph extends LinearLayout {
                 View bar = new View(context);
                 bar.setBackgroundResource(R.drawable.mpg_history_graph_bar);
 
-                int height = (int) (mpg / maxMpg);
+                float ratio = (mpg / maxMpg);
+                Float barHeight = height * ratio;
                 LinearLayout.LayoutParams params = null;
                 if(mpgList.size() > 5) {
-                    params = new LayoutParams(0, height, 1.0f);
+                    params = new LayoutParams(0, barHeight.intValue(), 1.0f);
                 } else {
-                    params = new LayoutParams(twentyFive, height);
+                    params = new LayoutParams(twentyFive, barHeight.intValue());
                 }
                 params.rightMargin = three;
                 params.leftMargin = three;
@@ -58,6 +66,8 @@ public class MpgHistoryGraph extends LinearLayout {
 
                 addView(bar);
             }
+
+            Log.d("JAR", "Height: " + height);
         }
     }
 
@@ -74,13 +84,6 @@ public class MpgHistoryGraph extends LinearLayout {
                 }
             }
         }
-        init();
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        this.height = heightMeasureSpec;
         init();
     }
 }

@@ -252,17 +252,33 @@ public class ReportingActivity extends FragmentActivity {
         }
     }
 
-    private class GetYtdData extends AsyncTask<Long, Void, List<FillUp>> {
+    private class GetYtdData extends AsyncTask<Long, Void, float[]> {
 
         @Override
-        protected List<FillUp> doInBackground(Long... longs) {
-            //todo
-            return null;
+        protected float[] doInBackground(Long... longs) {
+            FillUpsDao dao = new FillUpsDao(ReportingActivity.this);
+            List<FillUp> fillups = dao.getFillUpsYtd(longs[0], true);
+
+            float gallons = 0;
+            float dollars = 0;
+            if(fillups != null && fillups.size() > 0) {
+                for(FillUp fillup : fillups) {
+                    if(fillup.getGallons() != null) {
+                        gallons += fillup.getGallons();
+                    }
+                    if(fillup.getTotalCost() != null) {
+                        dollars += fillup.getTotalCost();
+                    }
+                }
+            }
+
+            return new float[]{gallons, dollars};
         }
 
         @Override
-        protected void onPostExecute(List<FillUp> fillups) {
-            //todo
+        protected void onPostExecute(float[] result) {
+            gallonsYtdView.setText(String.format("%d", (int)result[0]));
+            costYtdView.setText(String.format("%s%,d", currencySymbol, (int)result[1]));
         }
     }
 
