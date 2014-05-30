@@ -130,12 +130,14 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 if(i > 0) {
                     vehicle.setYear(yearAdapter.getItem(i));
                     getMakesForYear(vehicle.getYear());
+                } else {
+                    vehicle.setYear(null);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                //do nothing
+
             }
         });
 
@@ -170,6 +172,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                         //clear out the input vehicle so it will not reset the selection if we change the year
                         inputVehicle.setMake(null);
                     }
+                } else {
+                    vehicle.setMake(null);
                 }
             }
 
@@ -201,6 +205,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                         //Clear out the model for the input vehicle so it doesn't reset things if we change the year or make
                         inputVehicle.setModel(null);
                     }
+                } else {
+                    vehicle.setModel(null);
                 }
             }
 
@@ -226,6 +232,9 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                         //Reset the trim for the inputVehicle so it doesn't reset the selection if we chand the year, make or model
                         inputVehicle.setTrim(null);
                     }
+                } else {
+                    vehicle.setTrim(null);
+                    vehicle.setTrimId(null);
                 }
             }
 

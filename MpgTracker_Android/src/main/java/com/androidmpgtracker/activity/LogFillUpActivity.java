@@ -31,6 +31,7 @@ import com.androidmpgtracker.data.entities.Vehicle;
 import com.androidmpgtracker.utils.FlurryEvents;
 import com.flurry.android.FlurryAgent;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -290,24 +291,30 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
                 price = NumberFormat.getInstance().parse(priceInput.getText().toString().substring(currencySymbol.length())).floatValue();
             } catch (ParseException e) {
                 e.printStackTrace();
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
 
             if (miles != -1 && gallons != -1) {
-                fillUpsDao.saveFillUp(vehicle.getId(), miles, gallons, price);
+                Long carId = vehicle.getTrimId();
+                if(carId == null) {
+                    carId = vehicle.getId();
+                }
+                fillUpsDao.saveFillUp(carId, miles, gallons, price);
 
                 SettingsDao settingsDao = new SettingsDao(this);
                 if (settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
-                    float mpg = miles / gallons;
-                    Log.d("MPG", "car trim id is " + vehicle.getTrimId());
-                    new AsyncTask<Float, Void, Void>() {
+                    BigDecimal mpg = BigDecimal.valueOf(miles / gallons);
+                    BigDecimal trimId = BigDecimal.valueOf(vehicle.getTrimId());
+
+                    new AsyncTask<BigDecimal, Void, Void>() {
 
                         @Override
-                        protected Void doInBackground(Float... floats) {
+                        protected Void doInBackground(BigDecimal... inputs) {
                             MpgApiRequest request = new MpgApiRequest(LogFillUpActivity.this, Method.SAVE_FILL_UP_BASE);
                             request.setPostMethod(Method.SAVE_FILL_UP_METHOD);
-                            Log.d("MPG", "car trim id is " + floats[0]);
-                            request.addParam("car_id", String.valueOf(floats[0].longValue()));
-                            request.addParam("mpg", String.valueOf(floats[1]));
+                            request.addParam("car_id", String.valueOf(inputs[0].longValue()));
+                            request.addParam("mpg", String.valueOf(inputs[1]));
 
                             new NetworkCallExecutor().sendMpgPostAndWait(request);
 
@@ -317,7 +324,7 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
 
                             return null;
                         }
-                    }.execute(vehicle.getTrimId().floatValue(), mpg);
+                    }.execute(trimId, mpg);
                 }
 
                 Intent reportIntent = new Intent(this, ReportingActivity.class);

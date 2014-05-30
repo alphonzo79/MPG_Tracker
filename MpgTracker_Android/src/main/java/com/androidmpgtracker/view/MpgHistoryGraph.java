@@ -66,8 +66,6 @@ public class MpgHistoryGraph extends LinearLayout {
 
                 addView(bar);
             }
-
-            Log.d("JAR", "Height: " + height);
         }
     }
 

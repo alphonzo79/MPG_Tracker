@@ -58,6 +58,7 @@ function get_community_mpg($mysql) {
                 //Now get results starting after the first 10% and ending before the last 10%
                 $entries = mysql_query("SELECT mpg FROM fill_ups WHERE car_id=".$car_id_clean." ORDER BY mpg ASC LIMIT ".$count." OFFSET ".$ten_percent.";", $mysql);
                 $total = 0;
+                $count = 0;
                 if($entries) {
                     while($row = mysql_fetch_array($entries)) {
                         $count++;
@@ -72,7 +73,7 @@ function get_community_mpg($mysql) {
         }
     }
 
-    return array("data" => array("count" => count($count), "mpg" => $ret_val));
+    return array("data" => array("count" => $count, "mpg" => $ret_val));
 }
 
 function log_mpg($mysql) {
