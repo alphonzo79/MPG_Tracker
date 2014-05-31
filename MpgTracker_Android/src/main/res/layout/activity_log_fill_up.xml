@@ -62,7 +62,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="175dp"
-                android:padding="2dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:background="@drawable/spinner_background"
                 tools:listitem="@layout/spinner_cell"
                 android:gravity="center"/>

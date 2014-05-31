@@ -19,6 +19,16 @@
     <string name="share_usage">Share Usage Data</string>
     <string name="share_usage_text">Share non-identifying data that can help us understand how the app is used and to quickly receive crash reports.</string>
 
+    <string name="no_cars_dashboard_header">It looks like you don\'t have any vehicles set up yet.</string>
+    <string name="no_cars_dashboard_text">Touch that \"Settings\" button down there. When you get to the settings screen, touch on \"My Vehicles\", then \"Add A Vehicle\". Once you\'ve set up a vehicle or two you can begin tracking!</string>
+    <string name="no_data_dashboard_header">It looks like you haven\'t logged any fill-ups yet.</string>
+    <string name="no_data_dashboard_text">Once you have logged a fill-up, your most recent MPG will show up in this space. For now, touch that big \"Log A Fill-Up\" button down there the next time you stop at the gas station.</string>
+    <string name="most_recent_fillup">Last Fill-Up</string>
+    <string name="did_you_know">Did you Know?</string>
+    <string name="furlongs_did_you_know">Since there are 8 furlongs in a mile, and 8 pints in a gallon, your car gets the same furlongs-per-pint as it gets miles-per-gallon.</string>
+    <string name="lets_do_it">Let\'s Do It!</string>
+    <string name="furlongs_per_pint">Furlongs Per Pint</string>
+
     <string name="none">none</string>
 
     <string name="yes">Yes</string>

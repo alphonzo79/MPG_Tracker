@@ -79,7 +79,7 @@ public class FillUpsDao extends MpgDatabaseHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         String[] columns = new String[]{COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST};
-        Cursor cursor = db.query(TABLE_NAME, columns, COLUMN_ID + " IS NOT NULL", null, null, null, COLUMN_DATE + " DESC", "1");
+        Cursor cursor = db.query(TABLE_NAME, columns, "1", null, null, null, COLUMN_DATE + " DESC", "1");
         if(cursor != null && cursor.getCount() > 0) {
             try {
                 cursor.moveToFirst();

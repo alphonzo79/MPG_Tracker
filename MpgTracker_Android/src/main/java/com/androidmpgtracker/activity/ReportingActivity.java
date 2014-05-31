@@ -80,12 +80,8 @@ public class ReportingActivity extends FragmentActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(vehicleAdapter != null) {
                     selectedVehicle = vehicleAdapter.getItem(i);
-                    if(selectedVehicle != null && (selectedVehicle.getTrimId() != null || selectedVehicle.getId() != null)) {
-                        Long id = selectedVehicle.getTrimId();
-                        if(id == null) {
-                            id = selectedVehicle.getId();
-                        }
-                        new GetLastFillupAsync().execute(id);
+                    if(selectedVehicle != null && selectedVehicle.getId() != null) {
+                        new GetLastFillupAsync().execute(selectedVehicle.getId());
 
                         if(selectedVehicle.getTrimId() != null && selectedVehicle.getTrimId() > 0) {
                             getCommunityData(selectedVehicle.getTrimId());
@@ -166,13 +162,9 @@ public class ReportingActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(FillUp fillup) {
             if(fillup != null) {
-                long id = selectedVehicle.getId();
-                if(selectedVehicle.getTrimId() != null) {
-                    id = selectedVehicle.getTrimId();
-                }
-                new GetYtdData().execute(id);
-                new GetMpgHistory().execute(id);
-                new GetAvgMpg().execute(id);
+                new GetYtdData().execute(selectedVehicle.getId());
+                new GetMpgHistory().execute(selectedVehicle.getId());
+                new GetAvgMpg().execute(selectedVehicle.getId());
 
                 if(fillup.getDate() != null) {
                     Calendar cal = Calendar.getInstance();
@@ -184,8 +176,8 @@ public class ReportingActivity extends FragmentActivity {
                 if(fillup.getGallons() != null && fillup.getGallons() != 0 && fillup.getMiles() != null && fillup.getMiles() != 0) {
                     float lastMpg = fillup.getMiles() / fillup.getGallons();
                     currentMpgView.setText(String.format("%01.2f", lastMpg));
-                    currentMilesView.setText(String.format("%01.2f", fillup.getMiles()));
-                    currentGallonsView.setText(String.format("%01.2f", fillup.getGallons()));
+                    currentMilesView.setText(String.format("%01.1f", fillup.getMiles()));
+                    currentGallonsView.setText(String.format("%01.1f", fillup.getGallons()));
 
                     float costPerGallon = 0f;
                     float costPerMile = 0f;

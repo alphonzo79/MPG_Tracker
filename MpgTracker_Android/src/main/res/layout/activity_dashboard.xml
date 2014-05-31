@@ -9,7 +9,105 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="60"
+        android:padding="15dp"
         android:background="@color/light_grey">
+
+        <RelativeLayout
+            android:id="@+id/we_got_data_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/latest_data_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/btn_enabled"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:gravity="center_horizontal"
+                android:text="@string/most_recent_fillup"/>
+
+            <TextView
+                android:id="@+id/latest_data_car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/latest_data_header"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/dark_grey"
+                android:textStyle="normal"
+                android:textSize="20sp"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/latest_data_mpg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/latest_data_car"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:textSize="60sp"
+                android:textStyle="bold"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:id="@+id/latest_data_mpg_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/latest_data_mpg"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/mpg" />
+
+            <TextView
+                android:id="@+id/latest_data_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/latest_data_mpg_label"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                android:gravity="center_horizontal"
+                android:textColor="@color/dark_grey" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/no_data_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/no_data_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/btn_enabled"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/no_data_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/no_data_header"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/dark_grey"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:gravity="center_horizontal" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

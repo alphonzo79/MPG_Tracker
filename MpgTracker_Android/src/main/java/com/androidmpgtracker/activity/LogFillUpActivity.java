@@ -296,12 +296,12 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
             }
 
             if (miles != -1 && gallons != -1) {
+                fillUpsDao.saveFillUp(vehicle.getId(), miles, gallons, price);
+
                 Long carId = vehicle.getTrimId();
                 if(carId == null) {
                     carId = vehicle.getId();
                 }
-                fillUpsDao.saveFillUp(carId, miles, gallons, price);
-
                 SettingsDao settingsDao = new SettingsDao(this);
                 if (settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
                     BigDecimal bdMiles = BigDecimal.valueOf(miles);
