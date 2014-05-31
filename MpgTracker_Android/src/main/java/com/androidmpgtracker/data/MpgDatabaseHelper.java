@@ -37,6 +37,8 @@ public class MpgDatabaseHelper extends SQLiteOpenHelper {
         } finally {
             sqLiteDatabase.endTransaction();
         }
+
+        populateSettingTableDefulats(sqLiteDatabase);
     }
 
     @Override
@@ -45,31 +47,34 @@ public class MpgDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void populateSettingTableDefulats(SQLiteDatabase db) {
-        SQLiteStatement sqlStatementUsage = db.compileStatement(String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", SettingsDao.TABLE_NAME, SettingsDao.SETTING_NAME, SettingsDao.SETTING_VALUE));
-        sqlStatementUsage.bindString(1, SettingsDao.ALLOW_USAGE_SHARING);
-        sqlStatementUsage.bindString(2, Boolean.toString(true));
-
-        SQLiteStatement sqlStatementData = db.compileStatement(String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", SettingsDao.TABLE_NAME, SettingsDao.SETTING_NAME, SettingsDao.SETTING_VALUE));
-        sqlStatementUsage.bindString(1, SettingsDao.ALLOW_DATA_SHARING);
-        sqlStatementUsage.bindString(2, Boolean.toString(true));
+        SQLiteStatement sqlStatementUsage = null;
+        SQLiteStatement sqlStatementData = null;
 
         db.beginTransaction();
-        try
-        {
+        try{
+            sqlStatementUsage = db.compileStatement(String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", SettingsDao.TABLE_NAME, SettingsDao.SETTING_NAME, SettingsDao.SETTING_VALUE));
+            sqlStatementUsage.bindString(1, SettingsDao.ALLOW_USAGE_SHARING);
+            sqlStatementUsage.bindString(2, Boolean.toString(true));
+
+            sqlStatementData = db.compileStatement(String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)", SettingsDao.TABLE_NAME, SettingsDao.SETTING_NAME, SettingsDao.SETTING_VALUE));
+            sqlStatementUsage.bindString(1, SettingsDao.ALLOW_DATA_SHARING);
+            sqlStatementUsage.bindString(2, Boolean.toString(true));
+
             sqlStatementUsage.execute();
             sqlStatementData.execute();
             db.setTransactionSuccessful();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             ex.printStackTrace();
         }
-        finally
-        {
+        finally {
             db.endTransaction();
-            sqlStatementData.close();
-            sqlStatementUsage.close();
-            db.close();
+            if(sqlStatementData != null) {
+                sqlStatementData.close();
+            }
+            if(sqlStatementUsage != null) {
+                sqlStatementUsage.close();
+            }
         }
     }
 }

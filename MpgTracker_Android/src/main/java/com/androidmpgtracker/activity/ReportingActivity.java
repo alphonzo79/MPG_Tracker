@@ -80,8 +80,12 @@ public class ReportingActivity extends FragmentActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(vehicleAdapter != null) {
                     selectedVehicle = vehicleAdapter.getItem(i);
-                    if(selectedVehicle != null && selectedVehicle.getId() != null) {
-                        new GetLastFillupAsync().execute(selectedVehicle.getId());
+                    if(selectedVehicle != null && (selectedVehicle.getTrimId() != null || selectedVehicle.getId() != null)) {
+                        Long id = selectedVehicle.getTrimId();
+                        if(id == null) {
+                            id = selectedVehicle.getId();
+                        }
+                        new GetLastFillupAsync().execute(id);
 
                         if(selectedVehicle.getTrimId() != null && selectedVehicle.getTrimId() > 0) {
                             getCommunityData(selectedVehicle.getTrimId());
@@ -162,9 +166,13 @@ public class ReportingActivity extends FragmentActivity {
         @Override
         protected void onPostExecute(FillUp fillup) {
             if(fillup != null) {
-                new GetYtdData().execute(selectedVehicle.getId());
-                new GetMpgHistory().execute(selectedVehicle.getId());
-                new GetAvgMpg().execute(selectedVehicle.getId());
+                long id = selectedVehicle.getId();
+                if(selectedVehicle.getTrimId() != null) {
+                    id = selectedVehicle.getTrimId();
+                }
+                new GetYtdData().execute(id);
+                new GetMpgHistory().execute(id);
+                new GetAvgMpg().execute(id);
 
                 if(fillup.getDate() != null) {
                     Calendar cal = Calendar.getInstance();
@@ -208,17 +216,12 @@ public class ReportingActivity extends FragmentActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
+                            dialogShown = false;
                         }
                     });
                     builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialogInterface) {
-                            dialogShown = false;
-                        }
-                    });
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
                             dialogShown = false;
                         }
                     });

@@ -1,6 +1,8 @@
 package com.androidmpgtracker;
 
 import android.app.Application;
+import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import com.androidmpgtracker.data.dao.SettingsDao;
 

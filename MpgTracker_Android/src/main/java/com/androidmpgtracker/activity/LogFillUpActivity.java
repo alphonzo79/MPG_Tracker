@@ -306,7 +306,12 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
                 if (settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
                     BigDecimal bdMiles = BigDecimal.valueOf(miles);
                     BigDecimal bdGallons = BigDecimal.valueOf(gallons);
-                    BigDecimal bdPrice = BigDecimal.valueOf(price);
+                    BigDecimal bdPrice = null;
+                    if(price != null) {
+                        bdPrice = BigDecimal.valueOf(price);
+                    } else {
+                        bdPrice = BigDecimal.ZERO;
+                    }
                     BigDecimal trimId = BigDecimal.valueOf(vehicle.getTrimId());
 
                     new AsyncTask<BigDecimal, Void, Void>() {
