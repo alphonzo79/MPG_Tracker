@@ -304,7 +304,9 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
 
                 SettingsDao settingsDao = new SettingsDao(this);
                 if (settingsDao.getAllowDataSharing() && vehicle.getTrimId() != null && vehicle.getTrimId() > 0) {
-                    BigDecimal mpg = BigDecimal.valueOf(miles / gallons);
+                    BigDecimal bdMiles = BigDecimal.valueOf(miles);
+                    BigDecimal bdGallons = BigDecimal.valueOf(gallons);
+                    BigDecimal bdPrice = BigDecimal.valueOf(price);
                     BigDecimal trimId = BigDecimal.valueOf(vehicle.getTrimId());
 
                     new AsyncTask<BigDecimal, Void, Void>() {
@@ -314,7 +316,9 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
                             MpgApiRequest request = new MpgApiRequest(LogFillUpActivity.this, Method.SAVE_FILL_UP_BASE);
                             request.setPostMethod(Method.SAVE_FILL_UP_METHOD);
                             request.addParam("car_id", String.valueOf(inputs[0].longValue()));
-                            request.addParam("mpg", String.valueOf(inputs[1]));
+                            request.addParam("miles", String.valueOf(inputs[1]));
+                            request.addParam("gallons", String.valueOf(inputs[2]));
+                            request.addParam("price", String.valueOf(inputs[3]));
 
                             new NetworkCallExecutor().sendMpgPostAndWait(request);
 
@@ -324,7 +328,7 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
 
                             return null;
                         }
-                    }.execute(trimId, mpg);
+                    }.execute(trimId, bdMiles, bdGallons, bdPrice);
                 }
 
                 Intent reportIntent = new Intent(this, ReportingActivity.class);

@@ -41,35 +41,25 @@ function get_community_mpg($mysql) {
     $ret_val = 0;
 
     $car_id = $_GET["car_id"];
+
     $car_id_clean = mysql_real_escape_string($car_id, $mysql);
 
     $count = 0;
 
     if(!empty($car_id_clean))  {
-        //first find out how many so we can filter out outliers (highest and lowest 10%)
-        $count_result = mysql_query("SELECT count(*) FROM fill_ups WHERE car_id=".$car_id_clean.";", $mysql);
-        if($count_result) {
-            $row = mysql_fetch_array($count_result, MYSQL_NUM);
-            $count = $row[0];
-            $ten_percent = (int)($count / 10);
-            $count = $count - ($ten_percent * 2);
-
-            if($count > 0) {
-                //Now get results starting after the first 10% and ending before the last 10%
-                $entries = mysql_query("SELECT mpg FROM fill_ups WHERE car_id=".$car_id_clean." ORDER BY mpg ASC LIMIT ".$count." OFFSET ".$ten_percent.";", $mysql);
-                $total = 0;
-                $count = 0;
-                if($entries) {
-                    while($row = mysql_fetch_array($entries)) {
-                        $count++;
-                        $total += $row[0];
-                    }
-                }
-
-                if($count > 0 && $total > 0) {
-                    $ret_val = $total / $count;
-                }
+        $entries = mysql_query("SELECT miles, gallons FROM fill_ups WHERE car_id=".$car_id_clean.";", $mysql);
+        $total_miles = 0;
+        $total_gallons = 0;
+        if($entries) {
+            while($row = mysql_fetch_array($entries)) {
+                $count++;
+                $total_miles += $row[0];
+                $total_gallons += $row[1];
             }
+        }
+
+        if($total_gallons > 0 && $total_miles > 0) {
+            $ret_val = $total_miles / $total_gallons;
         }
     }
 
@@ -80,13 +70,17 @@ function log_mpg($mysql) {
     $ret_val = false;
 
     $car_id = $_POST["car_id"];
-    $mpg = $_POST["mpg"];
+    $miles = $_POST["miles"];
+    $gallons = $_POST["gallons"];
+    $price = $_POST["price"];
 
     $car_id_clean = mysql_real_escape_string($car_id, $mysql);
-    $mpg_clean = mysql_real_escape_string($mpg, $mysql);
+    $miles_clean = mysql_real_escape_string($miles, $mysql);
+    $gallons_clean = mysql_real_escape_string($gallons, $mysql);
+    $price_clean = mysql_real_escape_string($price, $mysql);
 
-    if(!empty($car_id_clean) && !empty($mpg_clean)) {
-        $ret_val = mysql_query("INSERT INTO fill_ups (car_id, mpg) VALUES (".$car_id_clean.",".$mpg_clean.")", $mysql);
+    if(!empty($car_id_clean) && !empty($miles_clean) && !empty($gallons_clean)) {
+        $ret_val = mysql_query("INSERT INTO fill_ups (car_id, miles, gallons, price_per_gallon, date) VALUES (".$car_id_clean.",".$miles_clean.",".$gallons_clean.",".$price_clean.",".time().")", $mysql);
     }
 
     return array("data" => $ret_val);

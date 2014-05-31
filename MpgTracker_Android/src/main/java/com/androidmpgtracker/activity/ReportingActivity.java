@@ -42,6 +42,7 @@ public class ReportingActivity extends FragmentActivity {
 
     private VehicleAdapter vehicleAdapter;
     private Vehicle selectedVehicle;
+    boolean dialogShown = false;
 
     String currencySymbol = null;
 
@@ -189,25 +190,40 @@ public class ReportingActivity extends FragmentActivity {
                     currentCostPerMileView.setText(String.format("%s%01.2f", currencySymbol, costPerMile));
                 }
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(ReportingActivity.this);
-                builder.setMessage(R.string.no_logs_for_vehicle);
-                builder.setCancelable(true);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent saveCar = new Intent(ReportingActivity.this, LogFillUpActivity.class);
-                        startActivity(saveCar);
-                        dialogInterface.dismiss();
-                        ReportingActivity.this.finish();
-                    }
-                });
-                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.show();
+                if(!dialogShown) {
+                    dialogShown = true;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReportingActivity.this);
+                    builder.setMessage(R.string.no_logs_for_vehicle);
+                    builder.setCancelable(true);
+                    builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent saveCar = new Intent(ReportingActivity.this, LogFillUpActivity.class);
+                            startActivity(saveCar);
+                            dialogInterface.dismiss();
+                            ReportingActivity.this.finish();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            dialogShown = false;
+                        }
+                    });
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            dialogShown = false;
+                        }
+                    });
+                    builder.show();
+                }
             }
         }
     }
