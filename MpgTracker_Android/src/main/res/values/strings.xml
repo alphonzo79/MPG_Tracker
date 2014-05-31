@@ -20,7 +20,7 @@
     <string name="share_usage_text">Share non-identifying data that can help us understand how the app is used and to quickly receive crash reports.</string>
 
     <string name="no_cars_dashboard_header">It looks like you don\'t have any vehicles set up yet.</string>
-    <string name="no_cars_dashboard_text">Touch that \"Settings\" button down there. When you get to the settings screen, touch on \"My Vehicles\", then \"Add A Vehicle\". Once you\'ve set up a vehicle or two you can begin tracking!</string>
+    <string name="no_cars_dashboard_text">Touch that \"Settings\" button down there. When you get to the Settings screen, touch \"My Vehicles\", then \"Add A Vehicle\". Once you\'ve set up a vehicle or two you can begin tracking!</string>
     <string name="no_data_dashboard_header">It looks like you haven\'t logged any fill-ups yet.</string>
     <string name="no_data_dashboard_text">Once you have logged a fill-up, your most recent MPG will show up in this space. For now, touch that big \"Log A Fill-Up\" button down there the next time you stop at the gas station.</string>
     <string name="most_recent_fillup">Last Fill-Up</string>
