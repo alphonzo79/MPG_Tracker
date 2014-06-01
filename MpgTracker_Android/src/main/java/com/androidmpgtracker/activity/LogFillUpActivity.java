@@ -102,7 +102,7 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LogFillUpActivity.this);
                     builder.setMessage(R.string.must_have_a_vehilce);
-                    builder.setCancelable(false);
+                    builder.setCancelable(true);
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -110,6 +110,12 @@ public class LogFillUpActivity extends Activity implements View.OnClickListener 
                             saveCar.putExtra("com.androidmpgtracker.setupvehicle", true);
                             startActivity(saveCar);
                             dialogInterface.dismiss();
+                        }
+                    });
+                    builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            LogFillUpActivity.this.finish();
                         }
                     });
                     builder.show();
