@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
 import com.androidmpgtracker.R;
 import com.androidmpgtracker.data.dao.SettingsDao;

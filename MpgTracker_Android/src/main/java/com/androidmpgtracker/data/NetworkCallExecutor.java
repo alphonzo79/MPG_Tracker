@@ -1,7 +1,6 @@
 package com.androidmpgtracker.data;
 
 import android.net.http.AndroidHttpClient;
-import android.util.Log;
 
 import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.utils.FlurryEvents;
@@ -53,7 +52,6 @@ public class NetworkCallExecutor {
 
                 String responseString = buffer.readLine();
                 JsonParser parser = new JsonParser();
-                Log.d("MPG", responseString);
                 request.setResponse(parser.parse(responseString).getAsJsonObject());
 
                 responseString = null;
@@ -90,7 +88,6 @@ public class NetworkCallExecutor {
 
                 String responseString = buffer.readLine();
                 JsonParser parser = new JsonParser();
-                Log.d("MPG", responseString);
                 request.setResponse(parser.parse(responseString).getAsJsonObject());
 
                 responseString = null;
@@ -133,7 +130,6 @@ public class NetworkCallExecutor {
                     in = connection.getInputStream();
                     reader = new BufferedReader(new InputStreamReader(in));
                     String responseString = reader.readLine();
-                    Log.d("MPG", responseString);
 
                     JsonParser parser = new JsonParser();
                     request.setResponse(parser.parse(responseString).getAsJsonObject());
@@ -141,7 +137,6 @@ public class NetworkCallExecutor {
                     in = connection.getErrorStream();
                     reader = new BufferedReader(new InputStreamReader(in));
                     String errorString = reader.readLine();
-                    Log.d("MPG", errorString);
                     if(MpgApplication.isUsageSharingAllowed()) {
                         Map<String, String> errorMap = new HashMap<String, String>();
                         errorMap.put("edmundsError", errorString);
