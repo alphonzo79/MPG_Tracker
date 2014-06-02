@@ -2,7 +2,7 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.0'
+    buildToolsVersion '19.1'
 
     defaultConfig {
         minSdkVersion 8
@@ -12,10 +12,21 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../../Keystores/joe_rowley_personal.keystore")
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias "joe.rowley"
+            keyPassword System.getenv("KEYPWD")
+        }
+    }
+
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            zipAlign true
+            signingConfig signingConfigs.release
         }
     }
 
