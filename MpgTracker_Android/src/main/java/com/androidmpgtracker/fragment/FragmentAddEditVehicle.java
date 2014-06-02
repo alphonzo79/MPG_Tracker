@@ -2,6 +2,7 @@ package com.androidmpgtracker.fragment;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -58,6 +59,8 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
 
     private Button notListedButton;
     private Button saveButton;
+
+    private ProgressDialog progressDialog;
 
     private LoaderCallbacks<EdmundsYear> yearMakeLoaderCallbacks;
     private final int YEAR_MAKE_LOADER_ID = 45;
@@ -128,6 +131,11 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 saveButton.setEnabled(false);
 
                 if(i > 0) {
+                    if(progressDialog == null) {
+                        progressDialog = new ProgressDialog(activity);
+                        progressDialog.setMessage(activity.getString(R.string.fetching_data));
+                    }
+                    progressDialog.show();
                     vehicle.setYear(yearAdapter.getItem(i));
                     getMakesForYear(vehicle.getYear());
                 } else {
@@ -165,6 +173,11 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                 vehicle.setTrimId(null);
 
                 if(i > 0) {
+                    if(progressDialog == null) {
+                        progressDialog = new ProgressDialog(activity);
+                        progressDialog.setMessage(activity.getString(R.string.fetching_data));
+                    }
+                    progressDialog.show();
                     saveButton.setEnabled(true);
                     vehicle.setMake(makeAdapter.getItem(i).getName());
                     getModelsForYearAndMake(vehicle.getYear(), makeAdapter.getItem(i).getNiceName());
@@ -346,6 +359,9 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                             if(yearMakeList != null && yearMakeList.getMakes() != null && yearMakeList.getMakes().size() > 0) {
                                 setupMakeAdapter(yearMakeList.getMakes());
                                 makeSpinner.setEnabled(true);
+                                if(progressDialog != null && progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
                             } else {
                                 Toast.makeText(activity, R.string.year_error, Toast.LENGTH_SHORT).show();
                             }
@@ -387,6 +403,9 @@ public class FragmentAddEditVehicle extends Fragment implements View.OnClickList
                             if(data!= null && data.getModels() != null && data.getModels().size() > 0) {
                                 setupModelAdapter(data.getModels());
                                 modelSpinner.setEnabled(true);
+                                if(progressDialog != null && progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
                             } else {
                                 Toast.makeText(activity, R.string.make_error, Toast.LENGTH_SHORT).show();
                             }
