@@ -51,6 +51,11 @@ android {
             zipAlignEnabled true
             signingConfig signingConfigs.release
         }
+        debug {
+            signingConfig signingConfigs.debug
+            applicationIdSuffix '.debug'
+            zipAlignEnabled true
+        }
     }
 
     productFlavors {
