@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/black">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@string/reports_header"
+        android:textColor="@color/btn_enabled"
+        android:textSize="18sp" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:layout_above="@id/adView"
+        android:background="@color/light_grey"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp">
+
+        <Spinner
+            android:id="@+id/car_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:minWidth="175dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:background="@drawable/spinner_background"
+            tools:listitem="@layout/spinner_cell"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/last_mpg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/car_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="@color/btn_enabled" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/last_mpg"
+            android:layout_marginRight="5dp"
+            android:layout_alignBaseline="@id/last_mpg"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:textColor="@color/dark_grey" />
+
+        <TextView
+            android:id="@+id/last_mpg_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/last_mpg"
+            android:layout_marginLeft="5dp"
+            android:layout_alignBaseline="@id/last_mpg"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:textColor="@color/dark_grey"
+            android:text="@string/mpg" />
+
+        <LinearLayout
+            android:id="@+id/last_fillup_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/last_mpg"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/last_miles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/miles" />
+
+            <TextView
+                android:id="@+id/last_gallons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/gallons_input_label" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/last_fillup_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/last_fillup_stats"
+            android:layout_marginTop="7dp">
+
+            <TextView
+                android:id="@+id/last_cost_per_gallon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/per_gallon" />
+
+            <TextView
+                android:id="@+id/last_cost_per_mile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/cost_per_mile_label" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ytd_stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/last_fillup_money"
+            android:layout_marginTop="7dp">
+
+            <TextView
+                android:id="@+id/gallons_ytd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/gallons_ytd" />
+
+            <TextView
+                android:id="@+id/cost_ytd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/btn_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:textColor="@color/dark_grey"
+                android:text="@string/ytd" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:id="@+id/my_average_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/my_average" />
+
+                <TextView
+                    android:id="@+id/my_average"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:textColor="@color/btn_enabled"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/my_record_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/community_average_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal"
+                    android:text="@string/community_average" />
+
+                <TextView
+                    android:id="@+id/community_average"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:textColor="@color/btn_enabled"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/community_record_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    android:textColor="@color/dark_grey"
+                    android:gravity="center_horizontal" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <com.androidmpgtracker.view.MpgHistoryGraph
+            android:id="@+id/history_graph"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/ytd_stats"
+            android:layout_above="@id/bottom_layout"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

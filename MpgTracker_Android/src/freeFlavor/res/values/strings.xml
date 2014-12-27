@@ -2,5 +2,6 @@
 <resources>
 
     <string name="app_name">MPG Tracker Lite</string>
+    <string name="banner_ad_unit_id">ca-app-pub-8821458290025467/6560748630</string>
 
 </resources>
