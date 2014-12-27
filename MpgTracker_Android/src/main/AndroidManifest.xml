@@ -25,6 +25,8 @@
         <activity android:name=".activity.ReportingActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.LogFillUpActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.SettingsActivity" android:screenOrientation="portrait" />
+
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="dfcd4c422df48c5649067feadbbfe219906d2698"/>
     </application>
 
 </manifest>

@@ -10,3 +10,4 @@ bin/
 edmunds_api_settings.xml
 flurry_key.xml
 mpg_tracker_api_settings.xml
+crashlytics.properties
