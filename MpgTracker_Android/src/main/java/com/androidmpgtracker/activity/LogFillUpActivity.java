@@ -25,7 +25,6 @@ import com.androidmpgtracker.data.NetworkCallExecutor;
 import com.androidmpgtracker.data.dao.FillUpsDao;
 import com.androidmpgtracker.data.dao.SettingsDao;
 import com.androidmpgtracker.data.dao.VehiclesDao;
-import com.androidmpgtracker.data.entities.FillUp;
 import com.androidmpgtracker.data.entities.Vehicle;
 import com.androidmpgtracker.utils.FlurryEvents;
 import com.flurry.android.FlurryAgent;

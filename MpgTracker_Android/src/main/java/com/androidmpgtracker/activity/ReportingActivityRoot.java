@@ -31,7 +31,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
-public class ReportingActivity extends FragmentActivity {
+public abstract class ReportingActivityRoot extends FragmentActivity {
     private Spinner vehicleSpinner;
     private TextView dateView, currentMpgView, currentMilesView, currentGallonsView, currentCostView,
                         currentCostPerMileView, gallonsYtdView, costYtdView, myAvgView, myAvgRecordsView,
@@ -113,7 +113,7 @@ public class ReportingActivity extends FragmentActivity {
 
             @Override
             protected List<Vehicle> doInBackground(Void... voids) {
-                VehiclesDao dao = new VehiclesDao(ReportingActivity.this);
+                VehiclesDao dao = new VehiclesDao(ReportingActivityRoot.this);
                 return dao.getAllVehicles();
             }
 
@@ -131,17 +131,17 @@ public class ReportingActivity extends FragmentActivity {
                         vehicleSpinner.setSelection(0);
                     }
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReportingActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReportingActivityRoot.this);
                     builder.setMessage(R.string.must_have_a_vehilce);
                     builder.setCancelable(false);
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent saveCar = new Intent(ReportingActivity.this, SettingsActivity.class);
+                            Intent saveCar = new Intent(ReportingActivityRoot.this, SettingsActivity.class);
                             saveCar.putExtra("com.androidmpgtracker.setupvehicle", true);
                             startActivity(saveCar);
                             dialogInterface.dismiss();
-                            ReportingActivity.this.finish();
+                            ReportingActivityRoot.this.finish();
                         }
                     });
                     builder.show();
@@ -154,7 +154,7 @@ public class ReportingActivity extends FragmentActivity {
 
         @Override
         protected FillUp doInBackground(Long... longs) {
-            FillUpsDao dao = new FillUpsDao(ReportingActivity.this);
+            FillUpsDao dao = new FillUpsDao(ReportingActivityRoot.this);
             return dao.getMostRecentFillUp(longs[0]);
         }
 
@@ -191,16 +191,16 @@ public class ReportingActivity extends FragmentActivity {
             } else {
                 if(!dialogShown) {
                     dialogShown = true;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ReportingActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReportingActivityRoot.this);
                     builder.setMessage(R.string.no_logs_for_vehicle);
                     builder.setCancelable(true);
                     builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent saveCar = new Intent(ReportingActivity.this, LogFillUpActivity.class);
+                            Intent saveCar = new Intent(ReportingActivityRoot.this, LogFillUpActivity.class);
                             startActivity(saveCar);
                             dialogInterface.dismiss();
-                            ReportingActivity.this.finish();
+                            ReportingActivityRoot.this.finish();
                         }
                     });
                     builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -226,7 +226,7 @@ public class ReportingActivity extends FragmentActivity {
 
         @Override
         protected AverageMpg doInBackground(Long... longs) {
-            FillUpsDao dao = new FillUpsDao(ReportingActivity.this);
+            FillUpsDao dao = new FillUpsDao(ReportingActivityRoot.this);
             List<FillUp> fillups = dao.getRecentFillUps(longs[0], -1, true);
 
             AverageMpg result = new AverageMpg();
@@ -266,7 +266,7 @@ public class ReportingActivity extends FragmentActivity {
 
         @Override
         protected float[] doInBackground(Long... longs) {
-            FillUpsDao dao = new FillUpsDao(ReportingActivity.this);
+            FillUpsDao dao = new FillUpsDao(ReportingActivityRoot.this);
             List<FillUp> fillups = dao.getFillUpsYtd(longs[0], true);
 
             float gallons = 0;
@@ -296,7 +296,7 @@ public class ReportingActivity extends FragmentActivity {
 
         @Override
         protected List<FillUp> doInBackground(Long... longs) {
-            FillUpsDao dao = new FillUpsDao(ReportingActivity.this);
+            FillUpsDao dao = new FillUpsDao(ReportingActivityRoot.this);
             List<FillUp> fillups = dao.getRecentFillUps(longs[0], 20, true);
 
             //we got the most recent first so it would return the most recent 20.
@@ -321,7 +321,7 @@ public class ReportingActivity extends FragmentActivity {
             communityMpgLoaderCallbacks = new LoaderManager.LoaderCallbacks<AverageMpg>() {
                 @Override
                 public Loader<AverageMpg> onCreateLoader(int id, Bundle args) {
-                    GetCommunityMpgLoader loader = new GetCommunityMpgLoader(ReportingActivity.this);
+                    GetCommunityMpgLoader loader = new GetCommunityMpgLoader(ReportingActivityRoot.this);
                     loader.setVehicleTrimId(args.getLong("trimId"));
 
                     return loader;

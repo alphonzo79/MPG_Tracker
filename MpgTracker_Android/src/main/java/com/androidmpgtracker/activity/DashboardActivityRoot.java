@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class DashboardActivity extends Activity implements View.OnClickListener {
+public abstract class DashboardActivityRoot extends Activity implements View.OnClickListener {
     int reportClicks = 0;
 
     @Override
@@ -32,15 +32,6 @@ public class DashboardActivity extends Activity implements View.OnClickListener 
         findViewById(R.id.view_reports_button).setOnClickListener(this);
         findViewById(R.id.log_fill_up_button).setOnClickListener(this);
         findViewById(R.id.settings_button).setOnClickListener(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(MpgApplication.isUsageSharingAllowed()) {
-            FlurryAgent.setCaptureUncaughtExceptions(true);
-            FlurryAgent.onStartSession(this, getString(R.string.flurry_key));
-        }
     }
 
     @Override

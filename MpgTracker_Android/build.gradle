@@ -37,6 +37,16 @@ android {
         }
     }
 
+    productFlavors {
+        paidFlavor {
+
+        }
+        freeFlavor {
+            applicationId 'com.androidmpgtracker.lite'
+            minSdkVersion 9
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
