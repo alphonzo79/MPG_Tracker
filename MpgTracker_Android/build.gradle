@@ -1,12 +1,12 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
@@ -19,13 +19,20 @@ android {
             keyAlias "joe.rowley"
             keyPassword System.getenv("KEYPWD")
         }
+
+        debug {
+            storeFile file("../../Keystores/joe_rowley_personal.keystore")
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias "joe_debug"
+            keyPassword System.getenv("KEYPWD")
+        }
     }
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            zipAlign true
+            zipAlignEnabled true
             signingConfig signingConfigs.release
         }
     }
@@ -45,7 +52,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.+'
+    compile 'com.android.support:appcompat-v7:21.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'org.apache.httpcomponents:httpmime:4.2.5'
