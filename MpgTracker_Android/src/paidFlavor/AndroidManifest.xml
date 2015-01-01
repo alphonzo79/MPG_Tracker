@@ -5,7 +5,7 @@
     <application>
 
         <provider
-            android:authorities="com.androidmpgtracker.lite.DATA_TRANSFER"
+            android:authorities="com.androidmpgtracker.DATA_TRANSFER"
             android:name=".data.DataTransferProvider"
             android:enabled="true"
             android:exported="true"

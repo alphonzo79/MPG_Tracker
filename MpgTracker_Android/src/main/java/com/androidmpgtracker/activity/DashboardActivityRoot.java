@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -63,7 +64,7 @@ public abstract class DashboardActivityRoot extends Activity implements View.OnC
                     sharedPrefs = (SharedPreferences)params[1];
 
                     ContentResolver resolver = getContentResolver();
-                    Cursor vehicles = resolver.query(Uri.parse(getCarsUri()), DataTransferProvider.CARS_PROJECTION,
+                    Cursor vehicles = resolver.query(Uri.parse("content://" + getCarsUri()), DataTransferProvider.CARS_PROJECTION,
                             null, null, VehiclesDao.COLUMN_ID);
 
                     if(vehicles != null &&vehicles.getCount() > 0) {
@@ -76,7 +77,7 @@ public abstract class DashboardActivityRoot extends Activity implements View.OnC
                             String make = vehicles.getString(2);
                             String model = vehicles.getString(3);
                             String trim = vehicles.getString(4);
-                            int trimId = vehicles.getInt(5);
+                            long trimId = vehicles.getLong(5);
                             String isCustom = vehicles.getString(6);
 
                             vehiclesDao.insertVehicleFromTransfer(id, year, make, model, trim, trimId, isCustom);
@@ -84,7 +85,7 @@ public abstract class DashboardActivityRoot extends Activity implements View.OnC
 
                         vehicles.close();
 
-                        Cursor fillups = resolver.query(Uri.parse(getFillupsUri()), DataTransferProvider.LOGS_PROJECTION,
+                        Cursor fillups = resolver.query(Uri.parse("content://" + getFillupsUri()), DataTransferProvider.LOGS_PROJECTION,
                                 null, null, FillUpsDao.COLUMN_ID);
 
                         if(fillups != null && fillups.getCount() > 0) {
@@ -119,10 +120,16 @@ public abstract class DashboardActivityRoot extends Activity implements View.OnC
                     editor.commit();
 
                     dialog.dismiss();
+
+                    checkForFillups();
                 }
             }.execute(progressDialog, prefs);
         }
 
+        checkForFillups();
+    }
+
+    private void checkForFillups() {
         FillUpsDao fillupsDao = new FillUpsDao(this);
         VehiclesDao vehiclesDao = new VehiclesDao(this);
         FillUp mostRecent = fillupsDao.getMostRecentFillUp();

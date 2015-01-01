@@ -92,7 +92,7 @@ public class VehiclesDao extends MpgDatabaseHelper {
         return success;
     }
 
-    public boolean insertVehicleFromTransfer(long id, int year, String make, String model, String trim, int trimId, String isCustom) {
+    public boolean insertVehicleFromTransfer(long id, int year, String make, String model, String trim, long trimId, String isCustom) {
         boolean success = false;
 
         SQLiteDatabase db = getWritableDatabase();

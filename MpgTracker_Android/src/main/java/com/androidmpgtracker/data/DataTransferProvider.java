@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.androidmpgtracker.data.dao.FillUpsDao;
 import com.androidmpgtracker.data.dao.VehiclesDao;
@@ -16,10 +17,10 @@ import com.androidmpgtracker.data.dao.VehiclesDao;
 public class DataTransferProvider extends ContentProvider {
     public static final String AUTHORITY_LITE = "com.androidmpgtracker.lite.DATA_TRANSFER";
     public static final String AUTHORITY_PAID = "com.androidmpgtracker.DATA_TRANSFER";
-    public static final String CARS_LITE_URI = AUTHORITY_LITE + VehiclesDao.TABLE_NAME;
-    public static final String CARS_PAID_URI = AUTHORITY_PAID + VehiclesDao.TABLE_NAME;
-    public static final String LOGS_LITE_URI = AUTHORITY_LITE + FillUpsDao.TABLE_NAME;
-    public static final String LOGS_PAID_URI = AUTHORITY_PAID + FillUpsDao.TABLE_NAME;
+    public static final String CARS_LITE_URI = AUTHORITY_LITE + "/" + VehiclesDao.TABLE_NAME;
+    public static final String CARS_PAID_URI = AUTHORITY_PAID + "/" + VehiclesDao.TABLE_NAME;
+    public static final String LOGS_LITE_URI = AUTHORITY_LITE + "/" + FillUpsDao.TABLE_NAME;
+    public static final String LOGS_PAID_URI = AUTHORITY_PAID + "/" + FillUpsDao.TABLE_NAME;
 
     public static final String DATA_TRANSFER_PERMISSION = "com.androidmpgtracker.DATA_TRANSFER";
 
