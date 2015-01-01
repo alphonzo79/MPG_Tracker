@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.androidmpgtracker" >
+
+    <application>
+
+        <provider
+            android:authorities="com.androidmpgtracker.lite.DATA_TRANSFER"
+            android:name=".data.DataTransferProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.androidmpgtracker.DATA_TRANSFER" />
+
+
+    </application>
+
+</manifest>

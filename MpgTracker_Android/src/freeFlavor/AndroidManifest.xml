@@ -12,6 +12,13 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
 
+        <provider
+            android:authorities="com.androidmpgtracker.lite.DATA_TRANSFER"
+            android:name=".data.DataTransferProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.androidmpgtracker.DATA_TRANSFER" />
+
 
     </application>
 

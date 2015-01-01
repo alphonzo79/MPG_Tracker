@@ -11,3 +11,4 @@ gen/
 target/
 bin/
 build/
+crashlytics-build.properties
