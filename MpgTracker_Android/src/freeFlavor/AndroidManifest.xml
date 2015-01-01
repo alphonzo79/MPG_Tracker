@@ -16,8 +16,7 @@
             android:authorities="com.androidmpgtracker.lite.DATA_TRANSFER"
             android:name=".data.DataTransferProvider"
             android:enabled="true"
-            android:exported="true"
-            android:permission="com.androidmpgtracker.DATA_TRANSFER" />
+            android:exported="true" />
 
 
     </application>
