@@ -2,14 +2,20 @@ package com.androidmpgtracker.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.androidmpgtracker.MpgApplication;
 import com.androidmpgtracker.R;
+import com.androidmpgtracker.data.DataTransferProvider;
 import com.androidmpgtracker.data.dao.FillUpsDao;
 import com.androidmpgtracker.data.dao.VehiclesDao;
 import com.androidmpgtracker.data.entities.FillUp;
@@ -24,6 +30,9 @@ import java.util.List;
 public abstract class DashboardActivityRoot extends Activity implements View.OnClickListener {
     int reportClicks = 0;
 
+    protected final String MPG_TRACKER_SHARED_PREFS = "com.androidmpgtracker.prefs";
+    protected final String DATA_TRANSFER_DONE_SHARED_PREF = "data_transfer_done";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +46,82 @@ public abstract class DashboardActivityRoot extends Activity implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
+
+        SharedPreferences prefs = getSharedPreferences(MPG_TRACKER_SHARED_PREFS, MODE_PRIVATE);
+        boolean dataTransferDone = prefs.getBoolean(DATA_TRANSFER_DONE_SHARED_PREF, false);
+        if(!dataTransferDone) {
+            AlertDialog progressDialog = new AlertDialog.Builder(this).setCancelable(false).
+                    setMessage(R.string.checking_for_existing_data).show();
+
+            new AsyncTask<Object, Void, Void>() {
+                AlertDialog dialog;
+                SharedPreferences sharedPrefs;
+
+                @Override
+                protected Void doInBackground(Object... params) {
+                    dialog = (AlertDialog)params[0];
+                    sharedPrefs = (SharedPreferences)params[1];
+
+                    ContentResolver resolver = getContentResolver();
+                    Cursor vehicles = resolver.query(Uri.parse(getCarsUri()), DataTransferProvider.CARS_PROJECTION,
+                            null, null, VehiclesDao.COLUMN_ID);
+
+                    if(vehicles != null &&vehicles.getCount() > 0) {
+                        publishProgress(null);
+
+                        VehiclesDao vehiclesDao = new VehiclesDao(DashboardActivityRoot.this);
+                        while(vehicles.moveToNext()) {
+                            long id = vehicles.getLong(0);
+                            int year = vehicles.getInt(1);
+                            String make = vehicles.getString(2);
+                            String model = vehicles.getString(3);
+                            String trim = vehicles.getString(4);
+                            int trimId = vehicles.getInt(5);
+                            String isCustom = vehicles.getString(6);
+
+                            vehiclesDao.insertVehicleFromTransfer(id, year, make, model, trim, trimId, isCustom);
+                        }
+
+                        vehicles.close();
+
+                        Cursor fillups = resolver.query(Uri.parse(getFillupsUri()), DataTransferProvider.LOGS_PROJECTION,
+                                null, null, FillUpsDao.COLUMN_ID);
+
+                        if(fillups != null && fillups.getCount() > 0) {
+                            FillUpsDao fillUpsDao = new FillUpsDao(DashboardActivityRoot.this);
+                            while(fillups.moveToNext()) {
+                                long carId = fillups.getLong(1);
+                                long date = fillups.getLong(2);
+                                float miles = fillups.getFloat(3);
+                                float gallons = fillups.getFloat(4);
+                                float pricePerGallon = fillups.getFloat(5);
+                                float totalPrice = fillups.getFloat(6);
+
+                                fillUpsDao.saveFillupFromTransfer(carId, date, miles, gallons, pricePerGallon, totalPrice);
+                            }
+
+                            fillups.close();
+                        }
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onProgressUpdate(Void... values) {
+                    dialog.setMessage(getString(R.string.transfering_data));
+                }
+
+                @Override
+                protected void onPostExecute(Void result) {
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putBoolean(DATA_TRANSFER_DONE_SHARED_PREF, true);
+                    editor.commit();
+
+                    dialog.dismiss();
+                }
+            }.execute(progressDialog, prefs);
+        }
 
         FillUpsDao fillupsDao = new FillUpsDao(this);
         VehiclesDao vehiclesDao = new VehiclesDao(this);
@@ -127,4 +212,7 @@ public abstract class DashboardActivityRoot extends Activity implements View.OnC
                 break;
         }
     }
+
+    protected abstract String getCarsUri();
+    protected abstract String getFillupsUri();
 }

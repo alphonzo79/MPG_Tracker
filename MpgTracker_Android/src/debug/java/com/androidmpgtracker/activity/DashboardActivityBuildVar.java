@@ -3,5 +3,5 @@ package com.androidmpgtracker.activity;
 /**
  * Created by joe on 12/26/14.
  */
-public class DashboardActivity extends DashboardActivityRoot {
+public abstract class DashboardActivityBuildVar extends DashboardActivityRoot {
 }

@@ -92,6 +92,41 @@ public class VehiclesDao extends MpgDatabaseHelper {
         return success;
     }
 
+    public boolean insertVehicleFromTransfer(long id, int year, String make, String model, String trim, int trimId, String isCustom) {
+        boolean success = false;
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        SQLiteStatement sqlStatement = db.compileStatement(String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?)", TABLE_NAME, COLUMN_ID, COLUMN_YEAR, COLUMN_MAKE, COLUMN_MODEL, COLUMN_TRIM, COLUMN_TRIM_ID, COLUMN_IS_CUSTOM));
+        sqlStatement.bindLong(1, id);
+        sqlStatement.bindLong(2, year);
+        sqlStatement.bindString(3, make);
+        sqlStatement.bindString(4, model);
+        sqlStatement.bindString(5, trim);
+        sqlStatement.bindLong(6, trimId);
+        sqlStatement.bindString(7, isCustom);
+
+        db.beginTransaction();
+        try
+        {
+            sqlStatement.execute();
+            db.setTransactionSuccessful();
+            success = true;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            db.endTransaction();
+            sqlStatement.close();
+            db.close();
+        }
+
+        return success;
+    }
+
     private boolean updateVehicle(Vehicle vehicle) {
         boolean success = false;
 

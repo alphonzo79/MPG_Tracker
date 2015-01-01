@@ -73,6 +73,43 @@ public class FillUpsDao extends MpgDatabaseHelper {
         return success;
     }
 
+    public boolean saveFillupFromTransfer(long carId, long date, float miles, float gallons, float pricePerGallon, float fullCost) {
+        boolean success = false;
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        SQLiteStatement stmt = db.compileStatement(String.format("INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?);", TABLE_NAME, COLUMN_CAR_ID, COLUMN_DATE, COLUMN_MILES, COLUMN_GALLONS, COLUMN_PRICE_PER_GALLON, COLUMN_FULL_COST));
+        stmt.bindLong(1, carId);
+        stmt.bindLong(2, date);
+        stmt.bindDouble(3, miles);
+        stmt.bindDouble(4, gallons);
+        stmt.bindDouble(5, pricePerGallon);
+        stmt.bindDouble(6, fullCost);
+
+        db.beginTransaction();
+        try
+        {
+            stmt.execute();
+            db.setTransactionSuccessful();
+            success = true;
+            if(MpgApplication.isUsageSharingAllowed()) {
+                FlurryAgent.logEvent(FlurryEvents.FILL_UP_LOGGED);
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            db.endTransaction();
+            stmt.close();
+            db.close();
+        }
+
+        return success;
+    }
+
     public FillUp getMostRecentFillUp() {
         FillUp result = null;
 
