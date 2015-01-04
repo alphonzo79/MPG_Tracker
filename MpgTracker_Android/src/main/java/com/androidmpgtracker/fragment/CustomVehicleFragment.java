@@ -123,31 +123,36 @@ public class CustomVehicleFragment extends Fragment implements View.OnClickListe
                 InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(root.getWindowToken(), 0);
 
-                vehicle.setYear(Integer.valueOf(yearInput.getText().toString()));
-                vehicle.setMake(makeInput.getText().toString());
-                vehicle.setModel(modelInput.getText().toString());
-                vehicle.setTrim(trimInput.getText().toString());
-                vehicle.setIsCustom(true);
+                String yearString = yearInput.getText().toString();
+                if(yearString.length() > 4) {
+                    Toast.makeText(activity, R.string.need_valid_year, Toast.LENGTH_SHORT).show();
+                } else {
+                    vehicle.setYear(Integer.valueOf(yearInput.getText().toString()));
+                    vehicle.setMake(makeInput.getText().toString());
+                    vehicle.setModel(modelInput.getText().toString());
+                    vehicle.setTrim(trimInput.getText().toString());
+                    vehicle.setIsCustom(true);
 
-                new AsyncTask<Void, Void, Boolean>() {
+                    new AsyncTask<Void, Void, Boolean>() {
 
-                    @Override
-                    protected Boolean doInBackground(Void... voids) {
-                        VehiclesDao dao = new VehiclesDao(activity);
-                        return dao.saveVehicle(vehicle);
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean success) {
-                        if(success) {
-                            if(listener != null) {
-                                listener.killFragment();
-                            }
-                        } else {
-                            Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
+                        @Override
+                        protected Boolean doInBackground(Void... voids) {
+                            VehiclesDao dao = new VehiclesDao(activity);
+                            return dao.saveVehicle(vehicle);
                         }
-                    }
-                }.execute();
+
+                        @Override
+                        protected void onPostExecute(Boolean success) {
+                            if (success) {
+                                if (listener != null) {
+                                    listener.killFragment();
+                                }
+                            } else {
+                                Toast.makeText(activity, R.string.save_error, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }.execute();
+                }
                 break;
         }
     }
