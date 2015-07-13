@@ -1,19 +1,19 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven { url 'http://download.crashlytics.com/maven' }
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'crashlytics'
+apply plugin: 'io.fabric'
 
 repositories {
     mavenCentral()
-    maven { url 'http://download.crashlytics.com/maven' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 android {
@@ -23,8 +23,8 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 21
-        versionCode 4
-        versionName "1.3"
+        versionCode 5
+        versionName "1.3.1"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
@@ -88,6 +88,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'org.apache.httpcomponents:httpmime:4.2.5'
     compile 'com.squareup.okhttp:okhttp:1.3.+'
-    compile 'com.crashlytics.android:crashlytics:1.+'
+    compile('com.crashlytics.sdk.android:crashlytics:2.4.0@aar') {
+        transitive = true;
+    }
     freeFlavorCompile 'com.google.android.gms:play-services:6.5.87'
 }

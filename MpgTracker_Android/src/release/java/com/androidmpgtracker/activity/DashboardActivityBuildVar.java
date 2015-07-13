@@ -7,6 +7,8 @@ import com.androidmpgtracker.R;
 import com.flurry.android.FlurryAgent;
 import com.crashlytics.android.Crashlytics;
 
+import io.fabric.sdk.android.Fabric;
+
 /**
  * Created by joe on 12/26/14.
  */
@@ -23,7 +25,7 @@ public abstract class DashboardActivityBuildVar extends DashboardActivityRoot {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Crashlytics.start(this);
+        Fabric.with(this, new Crashlytics());
         super.onCreate(savedInstanceState);
     }
 }
